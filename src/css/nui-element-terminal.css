@@ -1,0 +1,36 @@
+
+.Terminal {
+	background: rgba(200,0,0,0.0);
+	padding: 10px;
+}
+
+.Terminal .PaneTop {
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.Terminal .History {
+	opacity: 0.75;
+	margin-bottom: 10px;
+}
+
+.Terminal .Prompt {
+
+}
+
+.Terminal .Caret {
+	animation-name: BlinkEffect;
+	animation-duration: 0.75s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+.Terminal .Keyboard,
+.Terminal .Keyboard:focus {
+	border: 0px;
+	width: 0px;
+	height: 0px;
+	outline: none;
+	margin: 0px;
+	padding: 0px;
+}

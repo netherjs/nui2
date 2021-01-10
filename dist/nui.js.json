@@ -1,0 +1,18 @@
+{
+	"AddFileHeader": true,
+	"AddScriptHeader": true,
+	"ContentType": "text\/javascript",
+	"Directories": [
+		"../../src/js"
+	],
+	"DistDir": "./",
+	"Extensions": [
+		"js"
+	],
+	"Files": [],
+	"Minify": false,
+	"OutputFile": "nui.js",
+	"OutputMinFile": "nui.min.js",
+	"Print": false,
+	"Updated": false
+}

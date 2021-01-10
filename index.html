@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MCP</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<meta name="theme-color" content="#333" />
+
+	<link rel="stylesheet" type="text/css" href="/vendor/components/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/vendor/components/font-awesome/css/all.min.css" />
+	<link rel="stylesheet" type="text/css" href="/dist/nui.css.php" />
+
+	<script type="text/javascript" src="/vendor/components/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/vendor/components/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="/dist/nui.js.php"></script>
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+jQuery(document)
+.ready(function(){
+
+	let Desktop = new NUI.Element.Desktop;
+
+	let Window = (
+		(new NUI.Element.Window({
+			'Container': null,
+			'Position': 'center'
+		}))
+		.Register('Show','LoadTerminal',function(){
+			//new NUI.Element.Terminal({
+			//	'Container': this.Content
+			//});
+			return;
+		})
+	);
+
+	Desktop.MountWindow(Window);
+
+	return;
+});
+</script>
+
+</body>
+</html>

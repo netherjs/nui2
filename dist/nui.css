@@ -1,0 +1,176 @@
+/*// nether-onescript //
+@date 2021-01-10 00:24:39
+@files [
+    "src\\\/\/src\/css\\nui-element-desktopcss",
+    "src\\\/\/src\/css\\nui-element-overlaycss",
+    "src\\\/\/src\/css\\nui-element-terminalcss",
+    "src\\\/\/src\/css\\nui-element-windowcss"
+]
+//*/
+
+/*/////////////////////////////////////////////////////////////////////////
+// src\//src/css\nui-element-desktopcss /////////////////////////////////*/
+
+.NUI-Element-Desktop {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+
+	background: #111;
+}
+
+.NUI-Element-Desktop .AppTray {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	border: 2px solid var(--NUI-Element-Window-Colour1);
+	border-radius: 4px;
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Colour1);
+	font-size: 1.4em;
+	padding: 4px;
+	text-shadow: var(--NUI-Element-Window-Text-Shadow);
+}
+
+/*/////////////////////////////////////////////////////////////////////////
+// src\//src/css\nui-element-overlaycss /////////////////////////////////*/
+
+.NUI-Element-Overlay {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9001;
+
+	background: rgb(255,0,0,0.25);
+}
+
+/*/////////////////////////////////////////////////////////////////////////
+// src\//src/css\nui-element-terminalcss ////////////////////////////////*/
+
+.Terminal {
+	background: rgba(200,0,0,0.0);
+	padding: 10px;
+}
+
+.Terminal .PaneTop {
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.Terminal .History {
+	opacity: 0.75;
+	margin-bottom: 10px;
+}
+
+.Terminal .Prompt {
+
+}
+
+.Terminal .Caret {
+	animation-name: BlinkEffect;
+	animation-duration: 0.75s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+.Terminal .Keyboard,
+.Terminal .Keyboard:focus {
+	border: 0px;
+	width: 0px;
+	height: 0px;
+	outline: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+/*/////////////////////////////////////////////////////////////////////////
+// src\//src/css\nui-element-windowcss //////////////////////////////////*/
+
+:root {
+	--NUI-Element-Window-Colour1: #ddd;
+	--NUI-Element-Window-Colour1a: #ddd3;
+	--NUI-Element-Window-Colour1b: #ddd9;
+	--NUI-Element-Window-Colour2: #111;
+
+	--NUI-Element-Window-Box-Colour: var(--NUI-Element-Window-Colour2);
+	--NUI-Element-Window-Box-Shadow: 0px 0px 16px var(--NUI-Element-Window-Colour1a), inset 0px 0px 16px var(--NUI-Element-Window-Colour1a);
+	--NUI-Element-Window-Text-Shadow: 0px 0px 16px var(--NUI-Element-Window-Colour1b);
+	--NUI-Element-Window-Text-Colour: var(--NUI-Element-Window-Colour1);
+	--NUI-Element-Window-Border-Colour: var(--NUI-Element-Window-Colour1);
+	--NUI-Element-Window-Border-Style: solid;
+	--NUI-Element-Window-Border-Width: 2px;
+}
+
+
+.NUI-Element-Window {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	min-height: 200px;
+	min-width: 300px;
+
+	display: flex;
+	flex-direction: column;
+
+	background-color: var(--NUI-Element-Window-Box-Colour);
+	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	text-shadow: var(--NUI-Element-Window-Text-Shadow);
+
+}
+
+.NUI-Element-Window,
+.NUI-Element-Window * {
+	scrollbar-color: var(--NUI-Element-Window-Colour1) var(--NUI-Element-Window-Colour2) !important;
+}
+
+.NUI-Element-Window header {
+	border-bottom: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+	flex-basis: 0;
+	padding: 1px 4px;
+}
+
+.NUI-Element-Window section {
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+	flex-grow: 1;
+	padding: 1px 4px;
+}
+
+.NUI-Element-Window footer {
+	border-top: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+	flex-basis: 0;
+	padding: 1px 4px;
+}
+
+.NUI-Element-Window > footer .GripResize {
+	cursor: nwse-resize;
+}
+
+.NUI-Element-Window.Hidden {
+	display: none;
+}
+
+.NUI-Element-Window.ResizeMode,
+.NUI-Element-Window.MoveMode {
+	user-select: none;
+}
+
+.NUI-Element-Window.Maximized {
+	top: 0px !important;
+	left: 0px !important;
+	width: 100% !important;
+	height: 100% !important;
+	border: 0px !important;
+}
+

@@ -1,0 +1,25 @@
+
+.NUI-Element-Desktop {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+
+	background: #111;
+}
+
+.NUI-Element-Desktop .AppTray {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	border: 2px solid var(--NUI-Element-Window-Colour1);
+	border-radius: 4px;
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Colour1);
+	font-size: 1.4em;
+	padding: 4px;
+	text-shadow: var(--NUI-Element-Window-Text-Shadow);
+}

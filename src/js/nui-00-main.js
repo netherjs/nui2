@@ -1,0 +1,4 @@
+
+NUI = new class {
+
+};
