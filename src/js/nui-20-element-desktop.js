@@ -17,8 +17,11 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		Ready = {};
 	};
 
-	AppTray = null;
 	TrayItems = new Array;
+	ZIndex = 9001;
+
+	AppTray = null;
+	Minimized = null;
 
 	constructor(Opt) {
 	/*//
@@ -49,8 +52,15 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 			.addClass('NUI-Element-Desktop')
 			.append(
 				this.AppTray = jQuery('<div />')
-				.addClass('AppTray')
-				.addClass('d-none')
+				.addClass('AppTray Left Animate')
+				.addClass('d-nonee')
+				.append(
+					this.Minimized = (
+						jQuery('<div />')
+						.addClass('d-none')
+						.addClass('Subtray')
+					)
+				)
 			)
 		);
 
@@ -63,46 +73,63 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
-	MountWindow(NUIW,DontShow) {
+	MountWindow(NUIW,Opt) {
 	/*//
 	@date 2021-01-09
 	//*/
 
+		let Config = {
+			'Show': true,
+			'Pinned': false,
+			'Icon': 'fa-window',
+			'Position': null
+		};
+
+		NUI.Util.MergeProperties(Opt,Config);
+
 		// register the application with the tray.
 
-		this._MountWindow_AppTrayIcon(NUIW);
+		this._MountWindow_AppTrayIcon(NUIW,Config);
 
 		// put this window into our dom.
 
 		this.Container
 		.append(NUIW.Container);
 
-		// center it.
+		// position the window as requested.
 
+		if(Config.Position === 'center')
 		NUI.Util.CenterInParent(NUIW.Container);
+
+		if(Config.Position instanceof NUI.Util.Vec2)
+		NUIW.Container.css({ 'left':`${Config.Position.X}`, 'left':`${Config.Position.Y}` });
 
 		// make sure it is being seen.
 
-		if(!DontShow) {
+		if(Config.Show) {
 			NUIW.Show();
+
+			if(Config.Position === 'center')
 			NUI.Util.CenterInParent(NUIW.Container);
 		}
 
 		return;
 	}
 
-	_MountWindow_AppTrayIcon(NUIW) {
+	_MountWindow_AppTrayIcon(NUIW,Config) {
 	/*//
 	@date 2021-01-09
 	//*/
 
 		let Item = {
+			'ID': NUIW.ID,
 			'Window': NUIW,
-			'Icon': 'far fa-window',
-			'Pinned': false,
+			'Icon': NUIW.GetIcon(),
+			'Pinned': Config.Pinned,
 			'Element': (
 				jQuery('<div />')
 				.addClass('Item')
+				.addClass('d-none')
 			)
 		};
 
@@ -110,31 +137,53 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		// icon is clicked.
 
 		(Item.Element)
-		.on('click',(function(Item){
-			// minimized windows call minimize again
-			// to restore themselves from this state.
-			Item.Window.Minimize();
-			return;
-		}).bind(this,Item));
+		.on(
+			'click',
+			(function(Item){ Item.Window.Show(); return; }).bind(this,Item)
+		)
+		.tooltip({
+			'container': Item.Element,
+			'delay': { 'hide':0, 'show':100 },
+			'placement': (function(Dest,Source,Item){
+				return 'right';
+			}).bind(this,Item),
+			'title': Item.Window.GetTitle()
+		});
 
-		// handle font awesome tray icons.
+		// handle font awesome tray icons. it expects you to send them
+		// as like just the font name like 'fa-wrench' and or with the
+		// font class first, 'far fa-wrench'
 
-		if(Item.Icon.match(/^fa/))
-		Item.Element.append(
-			jQuery('<i />')
-			.addClass(`fa-fw ${Item.Icon} text-size-largerer`)
-		);
+		if(Item.Icon.match(/^fa/)) {
+			if(Item.Icon.match(/^fa-/))
+			Item.Icon = `far ${Item.Icon}`;
+
+			Item.Element.append(
+				jQuery('<i />')
+				.addClass(`fa-fw ${Item.Icon}`)
+			);
+		}
 
 		// and push our completed widget into the tray.
 
-		//if(!NUIW.Container.hasClass('Hidden'))
-		Item.Element.addClass('d-none');
-
-		(this.AppTray)
+		this.Minimized
+		.removeClass('d-none')
 		.append(Item.Element);
+
+		if(Item.Window.Container.hasClass('Hidden') && !Config.Show)
+		Item.Element.removeClass('d-none');
+
+		if(Config.Pinned) {
+			this.AppTray.removeClass('d-none');
+
+			Item.Element.removeClass('d-none');
+
+		}
 
 		// watch for when the window has requested a dwm action
 		// to be performed with it.
+
+		//this.TrayItems[Item.ID] = Item;
 
 		(Item.Window)
 		.Register(
@@ -142,38 +191,65 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 			(function(Item){
 				this.AppTray.removeClass('d-none');
 				Item.Element.removeClass('d-none');
+
+				if(!Item.Pinned)
+				this.Minimized.removeClass('d-none');
+
 				Item.Window.Hide();
-				Item.Window.Register(
-					'Restore', 'Desktop',
-					(function(Item){
-						Item.Element.addClass('d-none');
-						Item.Window.Unregister('Restore','Desktop');
-						Item.Window.Show();
+				return;
+			}).bind(this,Item)
+		)
+		.Register(
+			'Restore', 'Desktop',
+			(function(Item){
 
-						if(this.TrayItems.length === 0)
-						this.AppTray.addClass('d-none');
+				if(this.AppTray.find('.Item:not(.d-none)').length === 0)
+				this.AppTray.addClass('d-none');
 
-						return;
-					})
-					.bind(this,Item)
-				);
+				if(!Item.Pinned) {
+					Item.Element.addClass('d-none');
 
+					if(this.Minimized.find('.Item:not(.d-none)').length === 0)
+					this.Minimized.addClass('d-none');
+				}
+
+				Item.Window.Show();
 				return;
 			}).bind(this,Item)
 		)
 		.Register(
 			'Quit', 'Desktop',
 			(function(Item){
-				//if(Item.Pinned) return;
 
-				Item.Element.remove();
-				delete this.TrayItems[Item.Window.ID];
+				if(!Item.Pinned) {
+					Item.Element.remove();
+					//delete this.TrayItems[Item.Window.ID];
+				}
+
+				return;
+			}).bind(this,Item)
+		)
+		.Register(
+			'Show','Desktop',
+			(function(Item){
+
+				if(Item.Window.Container.css('z-index') < this.ZIndex)
+				Item.Window.Container.css('z-index',this.ZIndex++);
+
+				return;
+			}).bind(this,Item)
+		)
+		.Register(
+			'Click','Desktop',
+			(function(Item){
+
+				if(Item.Window.Container.css('z-index') < this.ZIndex)
+				Item.Window.Container.css('z-index',this.ZIndex++);
 
 				return;
 			}).bind(this,Item)
 		);
 
-		this.TrayItems[NUIW.ID] = Item;
 		return;
 	}
 

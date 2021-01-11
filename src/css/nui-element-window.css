@@ -20,6 +20,7 @@
 	left: 0px;
 	min-height: 200px;
 	min-width: 300px;
+	z-index: 9000;
 
 	display: flex;
 	flex-direction: column;
@@ -28,7 +29,6 @@
 	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
 	text-shadow: var(--NUI-Element-Window-Text-Shadow);
-
 }
 
 .NUI-Element-Window,
@@ -36,7 +36,7 @@
 	scrollbar-color: var(--NUI-Element-Window-Colour1) var(--NUI-Element-Window-Colour2) !important;
 }
 
-.NUI-Element-Window header {
+.NUI-Element-Window > header {
 	border-bottom: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
 	color: var(--NUI-Element-Window-Text-Colour);
@@ -44,19 +44,28 @@
 	padding: 1px 4px;
 }
 
-.NUI-Element-Window section {
+.NUI-Element-Window > section {
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
 	color: var(--NUI-Element-Window-Text-Colour);
 	flex-grow: 1;
 	padding: 1px 4px;
 }
 
-.NUI-Element-Window footer {
+.NUI-Element-Window > footer {
 	border-top: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
 	color: var(--NUI-Element-Window-Text-Colour);
 	flex-basis: 0;
 	padding: 1px 4px;
+}
+
+.NUI-Element-Window > header .Icon {
+	flex-grow: 0;
+	margin-right: 3px;
+}
+
+.NUI-Element-Window > header .Title {
+	flex-grow: 1;
 }
 
 .NUI-Element-Window > footer .GripResize {
@@ -65,6 +74,16 @@
 
 .NUI-Element-Window.Hidden {
 	display: none;
+}
+
+.NUI-Element-Window.Animate {
+	transform: scale(1.0);
+	transition: transform 500ms;
+}
+
+.NUI-Element-Window.Animate.Hidden {
+	transform: scale(0.0);
+	transition: transform 500ms;
 }
 
 .NUI-Element-Window.ResizeMode,

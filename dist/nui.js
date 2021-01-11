@@ -1,5 +1,5 @@
 /*// nether-onescript //
-@date 2021-01-10 00:40:09
+@date 2021-01-11 22:00:57
 @files [
     "src\\\/\/src\/js\\nui-00-mainjs",
     "src\\\/\/src\/js\\nui-10-elementjs",
@@ -475,8 +475,11 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		Ready = {};
 	};
 
-	AppTray = null;
 	TrayItems = new Array;
+	ZIndex = 9001;
+
+	AppTray = null;
+	Minimized = null;
 
 	constructor(Opt) {
 	/*//
@@ -507,8 +510,15 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 			.addClass('NUI-Element-Desktop')
 			.append(
 				this.AppTray = jQuery('<div />')
-				.addClass('AppTray')
-				.addClass('d-none')
+				.addClass('AppTray Left Animate')
+				.addClass('d-nonee')
+				.append(
+					this.Minimized = (
+						jQuery('<div />')
+						.addClass('d-none')
+						.addClass('Subtray')
+					)
+				)
 			)
 		);
 
@@ -521,46 +531,63 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
-	MountWindow(NUIW,DontShow) {
+	MountWindow(NUIW,Opt) {
 	/*//
 	@date 2021-01-09
 	//*/
 
+		let Config = {
+			'Show': true,
+			'Pinned': false,
+			'Icon': 'fa-window',
+			'Position': null
+		};
+
+		NUI.Util.MergeProperties(Opt,Config);
+
 		// register the application with the tray.
 
-		this._MountWindow_AppTrayIcon(NUIW);
+		this._MountWindow_AppTrayIcon(NUIW,Config);
 
 		// put this window into our dom.
 
 		this.Container
 		.append(NUIW.Container);
 
-		// center it.
+		// position the window as requested.
 
+		if(Config.Position === 'center')
 		NUI.Util.CenterInParent(NUIW.Container);
+
+		if(Config.Position instanceof NUI.Util.Vec2)
+		NUIW.Container.css({ 'left':`${Config.Position.X}`, 'left':`${Config.Position.Y}` });
 
 		// make sure it is being seen.
 
-		if(!DontShow) {
+		if(Config.Show) {
 			NUIW.Show();
+
+			if(Config.Position === 'center')
 			NUI.Util.CenterInParent(NUIW.Container);
 		}
 
 		return;
 	}
 
-	_MountWindow_AppTrayIcon(NUIW) {
+	_MountWindow_AppTrayIcon(NUIW,Config) {
 	/*//
 	@date 2021-01-09
 	//*/
 
 		let Item = {
+			'ID': NUIW.ID,
 			'Window': NUIW,
-			'Icon': 'far fa-window',
-			'Pinned': false,
+			'Icon': NUIW.GetIcon(),
+			'Pinned': Config.Pinned,
 			'Element': (
 				jQuery('<div />')
 				.addClass('Item')
+				.addClass('d-none')
 			)
 		};
 
@@ -568,31 +595,53 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		// icon is clicked.
 
 		(Item.Element)
-		.on('click',(function(Item){
-			// minimized windows call minimize again
-			// to restore themselves from this state.
-			Item.Window.Minimize();
-			return;
-		}).bind(this,Item));
+		.on(
+			'click',
+			(function(Item){ Item.Window.Show(); return; }).bind(this,Item)
+		)
+		.tooltip({
+			'container': Item.Element,
+			'delay': { 'hide':0, 'show':100 },
+			'placement': (function(Dest,Source,Item){
+				return 'right';
+			}).bind(this,Item),
+			'title': Item.Window.GetTitle()
+		});
 
-		// handle font awesome tray icons.
+		// handle font awesome tray icons. it expects you to send them
+		// as like just the font name like 'fa-wrench' and or with the
+		// font class first, 'far fa-wrench'
 
-		if(Item.Icon.match(/^fa/))
-		Item.Element.append(
-			jQuery('<i />')
-			.addClass(`fa-fw ${Item.Icon} text-size-largerer`)
-		);
+		if(Item.Icon.match(/^fa/)) {
+			if(Item.Icon.match(/^fa-/))
+			Item.Icon = `far ${Item.Icon}`;
+
+			Item.Element.append(
+				jQuery('<i />')
+				.addClass(`fa-fw ${Item.Icon}`)
+			);
+		}
 
 		// and push our completed widget into the tray.
 
-		//if(!NUIW.Container.hasClass('Hidden'))
-		Item.Element.addClass('d-none');
-
-		(this.AppTray)
+		this.Minimized
+		.removeClass('d-none')
 		.append(Item.Element);
+
+		if(Item.Window.Container.hasClass('Hidden') && !Config.Show)
+		Item.Element.removeClass('d-none');
+
+		if(Config.Pinned) {
+			this.AppTray.removeClass('d-none');
+
+			Item.Element.removeClass('d-none');
+
+		}
 
 		// watch for when the window has requested a dwm action
 		// to be performed with it.
+
+		//this.TrayItems[Item.ID] = Item;
 
 		(Item.Window)
 		.Register(
@@ -600,38 +649,65 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 			(function(Item){
 				this.AppTray.removeClass('d-none');
 				Item.Element.removeClass('d-none');
+
+				if(!Item.Pinned)
+				this.Minimized.removeClass('d-none');
+
 				Item.Window.Hide();
-				Item.Window.Register(
-					'Restore', 'Desktop',
-					(function(Item){
-						Item.Element.addClass('d-none');
-						Item.Window.Unregister('Restore','Desktop');
-						Item.Window.Show();
+				return;
+			}).bind(this,Item)
+		)
+		.Register(
+			'Restore', 'Desktop',
+			(function(Item){
 
-						if(this.TrayItems.length === 0)
-						this.AppTray.addClass('d-none');
+				if(this.AppTray.find('.Item:not(.d-none)').length === 0)
+				this.AppTray.addClass('d-none');
 
-						return;
-					})
-					.bind(this,Item)
-				);
+				if(!Item.Pinned) {
+					Item.Element.addClass('d-none');
 
+					if(this.Minimized.find('.Item:not(.d-none)').length === 0)
+					this.Minimized.addClass('d-none');
+				}
+
+				Item.Window.Show();
 				return;
 			}).bind(this,Item)
 		)
 		.Register(
 			'Quit', 'Desktop',
 			(function(Item){
-				//if(Item.Pinned) return;
 
-				Item.Element.remove();
-				delete this.TrayItems[Item.Window.ID];
+				if(!Item.Pinned) {
+					Item.Element.remove();
+					//delete this.TrayItems[Item.Window.ID];
+				}
+
+				return;
+			}).bind(this,Item)
+		)
+		.Register(
+			'Show','Desktop',
+			(function(Item){
+
+				if(Item.Window.Container.css('z-index') < this.ZIndex)
+				Item.Window.Container.css('z-index',this.ZIndex++);
+
+				return;
+			}).bind(this,Item)
+		)
+		.Register(
+			'Click','Desktop',
+			(function(Item){
+
+				if(Item.Window.Container.css('z-index') < this.ZIndex)
+				Item.Window.Container.css('z-index',this.ZIndex++);
 
 				return;
 			}).bind(this,Item)
 		);
 
-		this.TrayItems[NUIW.ID] = Item;
 		return;
 	}
 
@@ -996,10 +1072,18 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		Container = 'body';
 		Title = 'NUI.Element.Window';
 		Content = '';
-		Position = null;
+		Icon = 'far fa-window';
+		Position = 'center';
+		QuitOnClose = true;
 		Header = true;
 		Footer = true;
 		Debug = true;
+
+		// trying to only use the free icons by default.
+		IconWindowClose = 'far fa-window-close';
+		IconWindowMaximize = 'far fa-window-maximize';
+		IconWindowMinimize = 'far fa-window-minimize';
+		IconWindowResize = 'fas fa-border-style';
 	};
 
 	////////////////////////////////////////////////////////////////
@@ -1021,6 +1105,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		Maximize = {};
 		Minimize = {};
 		Restore = {};
+		Click = {};
 		ClosePre = {};
 		Close = {};
 		QuitPre = {};
@@ -1038,6 +1123,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 	HeaderBtnMax = null;
 	HeaderBtnMin = null;
 	HeaderBtnShade = null;
+	HeaderIcon = null;
 	Content = null;
 	Footer = null;
 	FooterGripResize = null;
@@ -1074,17 +1160,14 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 		this.Container = (
 			jQuery('<div />')
-			.addClass('NUI-Element-Window Hidden')
+			.addClass('NUI-Element-Window Hidden Animate')
 			.append(this.Header)
 			.append(this.Content)
 			.append(this.Footer)
+			.on('mousedown',(function(){ this.OnClick(); }).bind(this))
 		);
 
 		if(this.Config.Position === 'center') {
-			this.Register(
-				'Show', 'AutoCenter',
-				(function(){ NUI.Util.CenterInParent(this.Container); return; }).bind(this)
-			);
 			this.Register(
 				'Show', 'AutoCenter',
 				(function(){ NUI.Util.CenterInParent(this.Container); return; }).bind(this)
@@ -1117,8 +1200,12 @@ NUI.Element.Window = class extends NUI.Element.Base {
 			jQuery('<header />')
 			.addClass((this.Config.Header)?('d-flex'):('d-none'))
 			.append(
+				this.HeaderIcon = jQuery('<div />')
+				.addClass('Icon')
+			)
+			.append(
 				jQuery('<div />')
-				.addClass('flex-grow-1')
+				.addClass('Title')
 				.text(this.Config.Title)
 			)
 			.append(
@@ -1127,7 +1214,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.append(
 					this.HeaderBtnMin = jQuery('<div />')
 					.addClass('Close')
-					.append('<i class="far fa-fw fa-window-minimize"></i>')
+					.append(`<i class="fa-fw ${this.Config.IconWindowMinimize}"></i>`)
 				)
 			)
 			.append(
@@ -1136,7 +1223,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.append(
 					this.HeaderBtnMax = jQuery('<div />')
 					.addClass('Close')
-					.append('<i class="far fa-fw fa-window-maximize"></i>')
+					.append(`<i class="fa-fw ${this.Config.IconWindowMaximize}"></i>`)
 				)
 			)
 			.append(
@@ -1145,7 +1232,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.append(
 					this.HeaderBtnClose = jQuery('<div />')
 					.addClass('Close')
-					.append('<i class="far fa-fw fa-window-close"></i>')
+					.append(`<i class="fa-fw ${this.Config.IconWindowClose}"></i>`)
 				)
 			)
 		);
@@ -1155,7 +1242,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 		(this.HeaderBtnClose)
 		.on('mousedown',function(){ return false; })
-		.on('click',(function(){ this.Close(); return; }).bind(this));
+		.on('click',(function(){ (this.Config.QuitOnClose?this.Quit():this.Close()); return; }).bind(this));
 
 		(this.HeaderBtnMax)
 		.on('mousedown',function(){ return false; })
@@ -1165,6 +1252,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		.on('mousedown',function(){ return false; })
 		.on('click',(function(){ this.Minimize(); return; }).bind(this));
 
+		this.SetIcon(this.Config.Icon);
 		return Element;
 	};
 
@@ -1241,6 +1329,34 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 		return this;
 	};
+
+	GetIcon() {
+	/*//
+	@date 2021-01-11
+	//*/
+
+		return this.Config.Icon;
+	};
+
+	SetIcon(Icon) {
+	/*//
+	@date 2021-01-11
+	//*/
+
+		if(Icon.match(/^fa/)) {
+			if(Icon.match(/^fa-/))
+			Icon = `far ${Icon}`;
+
+			this.HeaderIcon
+			.empty()
+			.append(
+				jQuery('<i />')
+				.addClass(`fa-fw ${Icon}`)
+			);
+		}
+
+		return this;
+	}
 
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
@@ -1343,9 +1459,9 @@ NUI.Element.Window = class extends NUI.Element.Base {
 	@date 2021-01-09
 	//*/
 
-		this.CallEventHandlers('QuitPre');
+		this.CallEventHandlers('ClosePre');
 		this.Hide();
-		this.CallEventHandlers('Quit');
+		this.CallEventHandlers('Close');
 
 		return this;
 	};
@@ -1398,6 +1514,39 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		return this;
 	};
 
+	Quit() {
+	/*//
+	@date 2021-01-09
+	//*/
+
+		this.Close();
+
+		this.CallEventHandlers('QuitPre');
+
+		this.Content
+		.empty()
+		.append(this.Config.Content);
+
+		this.Container
+		.removeClass('Loaded');
+
+		this
+		.SetIcon(this.Config.Icon);
+
+		this.CallEventHandlers('Quit');
+
+		return this;
+	};
+
+	OnClick() {
+	/*//
+	@date 2021-01-11
+	//*/
+
+		this.CallEventHandlers('Click');
+		return this;
+	}
+
 	Show() {
 	/*//
 	@date 2021-01-07
@@ -1408,13 +1557,15 @@ NUI.Element.Window = class extends NUI.Element.Base {
 			this.Container.addClass('Loaded');
 		}
 
+		if(this.Container.hasClass('Minimized'))
+		this.Minimize();
+
 		////////
 
 		this.CallEventHandlers('ShowPre');
 		this.Container.removeClass('Hidden');
 		this.ReflowSize();
 		this.CallEventHandlers('Show');
-
 		return this;
 	};
 

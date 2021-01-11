@@ -15,6 +15,14 @@
 	<script type="text/javascript" src="/vendor/components/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="/dist/nui.js.php"></script>
 
+	<script type="text/javascript">
+	jQuery
+	.ready(function(){
+
+		return;
+	});
+	</script>
+
 </head>
 <body>
 
@@ -25,20 +33,44 @@ jQuery(document)
 
 	let Desktop = new NUI.Element.Desktop;
 
-	let Window = (
-		(new NUI.Element.Window({
-			'Container': null,
-			'Position': 'center'
-		}))
-		.Register('Show','LoadTerminal',function(){
-			//new NUI.Element.Terminal({
-			//	'Container': this.Content
-			//});
+	let Window1 = new NUI.Element.Window({
+		'Title': 'Window 2',
+		'Container': null,
+		'Icon': 'fa-cog'
+	});
+
+	let Window2 = new NUI.Element.Window({
+		'Title': 'Window 1',
+		'Container': null,
+		'Icon': 'fa-wrench',
+		'Content': 'Interval: <span></span>'
+	})
+	.Register(
+		'Load', 'Test',
+		function(){
+			this.Timer = setInterval((function(){
+				this.Content
+				.find('span')
+				.text(new Date().getTime());
+
+				return;
+			}).bind(this),250);
 			return;
-		})
+		}
+	)
+	.Register(
+		'QuitPre', 'Test',
+		function(){
+			if(this.Timer)
+			clearInterval(this.Timer);
+
+			this.Timer = null;
+			return;
+		}
 	);
 
-	Desktop.MountWindow(Window);
+	Desktop.MountWindow(Window1,{'Pinned':true,'Show':true});
+	Desktop.MountWindow(Window2,{'Pinned':true,'Show':false});
 
 	return;
 });
