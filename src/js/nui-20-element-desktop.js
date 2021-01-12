@@ -113,6 +113,11 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 			NUI.Util.CenterInParent(NUIW.Container);
 		}
 
+		else {
+			if(NUIW.Container.hasClass('Hidden'))
+			NUIW.Minimize();
+		}
+
 		return;
 	}
 
@@ -136,10 +141,22 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		// configurlate how to restore the window when the tray
 		// icon is clicked.
 
-		(Item.Element)
-		.on(
+		(Item.Element).on(
 			'click',
-			(function(Item){ Item.Window.Show(); return; }).bind(this,Item)
+			(function(Item){
+
+				// this state is actually launching the app for the first
+				// time, more or less.
+				if(Item.Window.Container.hasClass('Hidden')) {
+					if(!Item.Window.Container.hasClass('Minimized')) {
+						Item.Window.Show();
+						return;
+					}
+				}
+
+				Item.Window.Minimize();
+				return;
+			}).bind(this,Item)
 		)
 		.tooltip({
 			'container': Item.Element,

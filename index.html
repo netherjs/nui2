@@ -34,27 +34,37 @@ jQuery(document)
 	let Desktop = new NUI.Element.Desktop;
 
 	let Window1 = new NUI.Element.Window({
-		'Title': 'Window 2',
+		'Title': 'Window 1',
 		'Container': null,
-		'Icon': 'fa-cog'
+		'Icon': 'fas fa-cog'
 	});
 
 	let Window2 = new NUI.Element.Window({
-		'Title': 'Window 1',
+		'Title': 'Window 2',
 		'Container': null,
-		'Icon': 'fa-wrench',
-		'Content': 'Interval: <span></span>'
+		'Icon': 'fas fa-wrench',
+		'Content': '<span class="Rand1">Loading...</span><span class="Rand2"></span><span class="Rand3"></span>'
 	})
 	.Register(
 		'Load', 'Test',
 		function(){
 			this.Timer = setInterval((function(){
+
+				let GetBinaryShit = function(){ return (
+					parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
+					.toString(2)
+					.replace(/(\d)/g,'$1 ')
+				); };
+
+				this.SetTitle(GetBinaryShit());
+
+				for(let Iter=1; Iter<=3; Iter++)
 				this.Content
-				.find('span')
-				.text(new Date().getTime());
+				.find(`span.Rand${Iter}`)
+				.text(GetBinaryShit());
 
 				return;
-			}).bind(this),250);
+			}).bind(this),150);
 			return;
 		}
 	)
@@ -69,8 +79,8 @@ jQuery(document)
 		}
 	);
 
-	Desktop.MountWindow(Window1,{'Pinned':true,'Show':true});
-	Desktop.MountWindow(Window2,{'Pinned':true,'Show':false});
+	Desktop.MountWindow(Window1,{'Pinned':true,'Show':false});
+	Desktop.MountWindow(Window2,{'Pinned':true,'Show':true});
 
 	return;
 });

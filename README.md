@@ -10,4 +10,5 @@ Work in progress.
 
 ## Testing
 
+$ composer install
 $ php -S localhost:80 -t www .

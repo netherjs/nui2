@@ -1,5 +1,5 @@
 /*// nether-onescript //
-@date 2021-01-11 22:03:30
+@date 2021-01-12 06:45:48
 @files [
     "src\\\/\/src\/css\\nui-element-desktopcss",
     "src\\\/\/src\/css\\nui-element-overlaycss",
@@ -143,8 +143,8 @@
 
 :root {
 	--NUI-Element-Window-Colour1: #ddd;
-	--NUI-Element-Window-Colour1a: #ddd3;
-	--NUI-Element-Window-Colour1b: #ddd9;
+	--NUI-Element-Window-Colour1a: #ddd2;
+	--NUI-Element-Window-Colour1b: #ddd6;
 	--NUI-Element-Window-Colour2: #111;
 
 	--NUI-Element-Window-Box-Colour: var(--NUI-Element-Window-Colour2);
@@ -191,6 +191,8 @@
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
 	color: var(--NUI-Element-Window-Text-Colour);
 	flex-grow: 1;
+	overflow: hidden;
+	overflow-y: auto;
 	padding: 1px 4px;
 }
 
@@ -209,6 +211,9 @@
 
 .NUI-Element-Window > header .Title {
 	flex-grow: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .NUI-Element-Window > footer .GripResize {

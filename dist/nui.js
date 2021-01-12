@@ -1,5 +1,5 @@
 /*// nether-onescript //
-@date 2021-01-11 22:00:57
+@date 2021-01-12 06:57:44
 @files [
     "src\\\/\/src\/js\\nui-00-mainjs",
     "src\\\/\/src\/js\\nui-10-elementjs",
@@ -571,6 +571,11 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 			NUI.Util.CenterInParent(NUIW.Container);
 		}
 
+		else {
+			if(NUIW.Container.hasClass('Hidden'))
+			NUIW.Minimize();
+		}
+
 		return;
 	}
 
@@ -594,10 +599,22 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		// configurlate how to restore the window when the tray
 		// icon is clicked.
 
-		(Item.Element)
-		.on(
+		(Item.Element).on(
 			'click',
-			(function(Item){ Item.Window.Show(); return; }).bind(this,Item)
+			(function(Item){
+
+				// this state is actually launching the app for the first
+				// time, more or less.
+				if(Item.Window.Container.hasClass('Hidden')) {
+					if(!Item.Window.Container.hasClass('Minimized')) {
+						Item.Window.Show();
+						return;
+					}
+				}
+
+				Item.Window.Minimize();
+				return;
+			}).bind(this,Item)
 		)
 		.tooltip({
 			'container': Item.Element,
@@ -1062,6 +1079,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 	ObjectType = 'NUI-Element-Window';
 
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
@@ -1074,6 +1092,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		Content = '';
 		Icon = 'far fa-window';
 		Position = 'center';
+		Modal = false;
 		QuitOnClose = true;
 		Header = true;
 		Footer = true;
@@ -1119,6 +1138,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 	Container = null;
 	Header = null;
+	HeaderTitle = null;
 	HeaderBtnClose = null;
 	HeaderBtnMax = null;
 	HeaderBtnMin = null;
@@ -1168,11 +1188,14 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		);
 
 		if(this.Config.Position === 'center') {
+			let When = this.Modal ? 'Show' : 'Load';
+
 			this.Register(
-				'Show', 'AutoCenter',
+				When, 'AutoCenter',
 				(function(){ NUI.Util.CenterInParent(this.Container); return; }).bind(this)
 			);
 
+			if(this.Modal)
 			jQuery(window)
 			.on('resize',(function(){ NUI.Util.CenterInParent(this.Container); return; }).bind(this));
 		}
@@ -1204,7 +1227,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.addClass('Icon')
 			)
 			.append(
-				jQuery('<div />')
+				this.HeaderTitle = jQuery('<div />')
 				.addClass('Title')
 				.text(this.Config.Title)
 			)
@@ -1265,7 +1288,6 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 		let Element = (
 			jQuery('<section />')
-			.append(this.Config.Content)
 		);
 
 		return Element;
@@ -1324,7 +1346,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 	@date 2021-01-08
 	//*/
 
-		(this.Header)
+		(this.HeaderTitle)
 		.html(Text);
 
 		return this;
@@ -1524,8 +1546,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		this.CallEventHandlers('QuitPre');
 
 		this.Content
-		.empty()
-		.append(this.Config.Content);
+		.empty();
 
 		this.Container
 		.removeClass('Loaded');
@@ -1553,6 +1574,12 @@ NUI.Element.Window = class extends NUI.Element.Base {
 	//*/
 
 		if(!this.Container.hasClass('Loaded')) {
+
+			if(typeof this.Config.Content === 'function')
+			this.Content.append(this.Config.Content.call(this));
+			else
+			this.Content.append(this.Config.Content);
+
 			this.CallEventHandlers('Load');
 			this.Container.addClass('Loaded');
 		}
