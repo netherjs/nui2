@@ -1,11 +1,12 @@
 /*// nether-onescript //
-@date 2021-01-12 06:57:44
+@date 2021-01-12 20:20:59
 @files [
     "src\\\/\/src\/js\\nui-00-mainjs",
     "src\\\/\/src\/js\\nui-10-elementjs",
     "src\\\/\/src\/js\\nui-10-mousejs",
     "src\\\/\/src\/js\\nui-10-utiljs",
     "src\\\/\/src\/js\\nui-15-element-basejs",
+    "src\\\/\/src\/js\\nui-20-element-buttonjs",
     "src\\\/\/src\/js\\nui-20-element-desktopjs",
     "src\\\/\/src\/js\\nui-20-element-overlayjs",
     "src\\\/\/src\/js\\nui-20-element-terminaljs",
@@ -453,6 +454,57 @@ NUI.Element.Base = class {
 	};
 
 };
+
+///////////////////////////////////////////////////////////////////////////
+// src\//src/js\nui-20-element-buttonjs ///////////////////////////////////
+
+NUI.Element.Button = class extends NUI.Element.Base {
+/*//
+@date 2021-01-12
+//*/
+
+	Config = new class extends NUI.Util.ConfigStruct {
+		ID = `${(new Date).getTime()}`;
+		Container = 'body';
+		Text = '';
+		Class = '';
+	};
+
+	Events = new class extends NUI.Util.ConfigStruct {
+		Ready = {};
+	};
+
+	constructor(Opt) {
+	/*//
+	@date 2021-01-12
+	//*/
+
+		super(Opt);
+		this.Config.Push(Opt);
+
+		if(this.Config.Debug)
+		this.DebugRegisterEvents();
+
+		this.ID = this.Config.ID;
+		this.ConstructUI();
+		this.CallEventHandlers('Ready');
+
+		return;
+	}
+
+	ConstructUI() {
+
+		this.Container = (
+			jQuery('<button />')
+			.addClass('NUI-Element-Button')
+			.addClass(this.Config.Class)
+			.html(this.Config.Text)
+		);
+
+		return;
+	}
+
+}
 
 ///////////////////////////////////////////////////////////////////////////
 // src\//src/js\nui-20-element-desktopjs //////////////////////////////////
@@ -1090,12 +1142,16 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		Container = 'body';
 		Title = 'NUI.Element.Window';
 		Content = '';
+		Buttons = null;
+		ButtonPacking = 'Fill';
 		Icon = 'far fa-window';
 		Position = 'center';
 		Modal = false;
 		QuitOnClose = true;
 		Header = true;
 		Footer = true;
+		Movable = true;
+		Resizable = true;
 		Debug = true;
 
 		// trying to only use the free icons by default.
@@ -1145,6 +1201,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 	HeaderBtnShade = null;
 	HeaderIcon = null;
 	Content = null;
+	Buttons = null;
 	Footer = null;
 	FooterGripResize = null;
 	FooterStatus = null;
@@ -1176,6 +1233,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 		this.Header = this.ConstructUI_Header();
 		this.Content = this.ConstructUI_Content();
+		this.Buttons = this.ConstructUI_Buttons();
 		this.Footer = this.ConstructUI_Footer();
 
 		this.Container = (
@@ -1183,9 +1241,12 @@ NUI.Element.Window = class extends NUI.Element.Base {
 			.addClass('NUI-Element-Window Hidden Animate')
 			.append(this.Header)
 			.append(this.Content)
+			.append(this.Buttons)
 			.append(this.Footer)
 			.on('mousedown',(function(){ this.OnClick(); }).bind(this))
 		);
+
+		// handle initial positioning.
 
 		if(this.Config.Position === 'center') {
 			let When = this.Modal ? 'Show' : 'Load';
@@ -1207,9 +1268,21 @@ NUI.Element.Window = class extends NUI.Element.Base {
 			});
 		}
 
+		// handle window flags.
+
+		if(this.Config.Movable)
+		this.Container.addClass('Movable');
+
+		if(this.Config.Resizable)
+		this.Container.addClass('Resizable');
+
+		// handle adding it to the container that was specified.
+
 		if(this.Config.Container !== null)
 		jQuery(this.Config.Container)
 		.append(this.Container);
+
+		// handle content actions
 
 		return;
 	};
@@ -1236,7 +1309,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.addClass('flex-grow-0 no-wrap')
 				.append(
 					this.HeaderBtnMin = jQuery('<div />')
-					.addClass('Close')
+					.addClass('HeaderBtn Close')
 					.append(`<i class="fa-fw ${this.Config.IconWindowMinimize}"></i>`)
 				)
 			)
@@ -1245,7 +1318,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.addClass('flex-grow-0 no-wrap')
 				.append(
 					this.HeaderBtnMax = jQuery('<div />')
-					.addClass('Close')
+					.addClass('HeaderBtn Close')
 					.append(`<i class="fa-fw ${this.Config.IconWindowMaximize}"></i>`)
 				)
 			)
@@ -1254,14 +1327,16 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.addClass('flex-grow-0 no-wrap')
 				.append(
 					this.HeaderBtnClose = jQuery('<div />')
-					.addClass('Close')
+					.addClass('HeaderBtn Close')
 					.append(`<i class="fa-fw ${this.Config.IconWindowClose}"></i>`)
 				)
 			)
 		);
 
+		if(this.Config.Movable)
 		(Element)
 		.on('mousedown',(function(){ this.SetMoveMode(true); return; }).bind(this));
+
 
 		(this.HeaderBtnClose)
 		.on('mousedown',function(){ return false; })
@@ -1293,6 +1368,33 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		return Element;
 	};
 
+	ConstructUI_Buttons() {
+	/*//
+	@date 2021-01-12
+	//*/
+
+		let Element = (
+			jQuery('<nav />')
+			.addClass(this.Config.ButtonPacking)
+		);
+
+		jQuery(this.Config.Buttons)
+		.each(function(){
+
+			Element
+			.append(
+				this.Container
+			)
+
+			return;
+		});
+
+		if(Element.find('button').length === 0)
+		Element.addClass('d-none');
+
+		return Element;
+	}
+
 	ConstructUI_Footer() {
 	/*//
 	@date 2021-01-07
@@ -1321,6 +1423,10 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		this.FooterGripResize
 		.on('mousedown',this.SetResizeMode.bind(this,true));
 
+		if(!this.Config.Resizable)
+		this.FooterGripResize.addClass('d-none');
+
+		this.SetStatus(null);
 		return Element;
 	};
 
@@ -1376,6 +1482,20 @@ NUI.Element.Window = class extends NUI.Element.Base {
 				.addClass(`fa-fw ${Icon}`)
 			);
 		}
+
+		return this;
+	}
+
+	SetStatus(Text) {
+	/*//
+	@date 2021-01-12
+	//*/
+
+		if(!Text || !jQuery.trim(Text))
+		Text = '&nbsp;'
+
+		this.FooterStatus
+		.html(Text);
 
 		return this;
 	}

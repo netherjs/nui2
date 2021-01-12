@@ -53,12 +53,26 @@
 	padding: 1px 4px;
 }
 
+.NUI-Element-Window > nav {
+	border-top: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+
+	display: flex;
+	align-items: center;
+	padding: 3px;
+}
+
 .NUI-Element-Window > footer {
 	border-top: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
 	color: var(--NUI-Element-Window-Text-Colour);
 	flex-basis: 0;
 	padding: 1px 4px;
+}
+
+.NUI-Element-Window > header .HeaderBtn:not(.Disabled) {
+	cursor: pointer;
 }
 
 .NUI-Element-Window > header .Icon {
@@ -73,12 +87,36 @@
 	white-space: nowrap;
 }
 
+.NUI-Element-Window > nav > button {
+	margin: 3px;
+}
+
+.NUI-Element-Window > nav.End {
+	justify-content: end;
+}
+
+.NUI-Element-Window > nav.End {
+	justify-content: start;
+}
+
+.NUI-Element-Window > nav.Center {
+	justify-content: Center;
+}
+
+.NUI-Element-Window > nav.Fill > button {
+	flex: 1;
+}
+
 .NUI-Element-Window > footer .GripResize {
 	cursor: nwse-resize;
 }
 
 .NUI-Element-Window.Hidden {
 	display: none;
+}
+
+.NUI-Element-Window.Movable > header {
+	cursor: move;
 }
 
 .NUI-Element-Window.Animate {

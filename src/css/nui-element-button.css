@@ -1,0 +1,7 @@
+
+.NUI-Element-Button {
+	background: var(--NUI-Element-Window-Colour1);
+	border: 0px;
+	color: var(--NUI-Element-Window-Colour2);
+	padding: 2px 8px;
+}
