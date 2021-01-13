@@ -1,5 +1,5 @@
 /*// nether-onescript //
-@date 2021-01-12 20:20:59
+@date 2021-01-12 22:17:11
 @files [
     "src\\\/\/src\/js\\nui-00-mainjs",
     "src\\\/\/src\/js\\nui-10-elementjs",
@@ -468,6 +468,8 @@ NUI.Element.Button = class extends NUI.Element.Base {
 		Container = 'body';
 		Text = '';
 		Class = '';
+		OnClick = '';
+		OnDoubleClick = '';
 	};
 
 	Events = new class extends NUI.Util.ConfigStruct {
@@ -500,6 +502,12 @@ NUI.Element.Button = class extends NUI.Element.Base {
 			.addClass(this.Config.Class)
 			.html(this.Config.Text)
 		);
+
+		if(this.Config.OnClick)
+		this.Container.on('click',this.Config.OnClick.bind(this));
+
+		if(this.Config.OnDoubleClick)
+		this.Container.on('dblclick',this.Config.OnDoubleClick.bind(this));
 
 		return;
 	}
@@ -597,36 +605,15 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 
 		NUI.Util.MergeProperties(Opt,Config);
 
+		// put this window into our dom.
+
+		this.Container.append(NUIW.Container);
+
 		// register the application with the tray.
 
 		this._MountWindow_AppTrayIcon(NUIW,Config);
-
-		// put this window into our dom.
-
-		this.Container
-		.append(NUIW.Container);
-
-		// position the window as requested.
-
-		if(Config.Position === 'center')
-		NUI.Util.CenterInParent(NUIW.Container);
-
-		if(Config.Position instanceof NUI.Util.Vec2)
-		NUIW.Container.css({ 'left':`${Config.Position.X}`, 'left':`${Config.Position.Y}` });
-
-		// make sure it is being seen.
-
-		if(Config.Show) {
-			NUIW.Show();
-
-			if(Config.Position === 'center')
-			NUI.Util.CenterInParent(NUIW.Container);
-		}
-
-		else {
-			if(NUIW.Container.hasClass('Hidden'))
-			NUIW.Minimize();
-		}
+		this._MountWindow_Position(NUIW,Config);
+		this._MountWindow_Show(NUIW,Config);
 
 		return;
 	}
@@ -651,7 +638,8 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		// configurlate how to restore the window when the tray
 		// icon is clicked.
 
-		(Item.Element).on(
+		(Item.Element)
+		.on(
 			'click',
 			(function(Item){
 
@@ -697,20 +685,13 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		.removeClass('d-none')
 		.append(Item.Element);
 
-		if(Item.Window.Container.hasClass('Hidden') && !Config.Show)
-		Item.Element.removeClass('d-none');
-
-		if(Config.Pinned) {
+		if((Item.Window.Container.hasClass('Hidden') && !Config.Show) || Config.Pinned) {
 			this.AppTray.removeClass('d-none');
-
 			Item.Element.removeClass('d-none');
-
 		}
 
 		// watch for when the window has requested a dwm action
 		// to be performed with it.
-
-		//this.TrayItems[Item.ID] = Item;
 
 		(Item.Window)
 		.Register(
@@ -780,6 +761,46 @@ NUI.Element.Desktop = class extends NUI.Element.Base {
 		return;
 	}
 
+	_MountWindow_Position(NUIW,Config) {
+	/*//
+	@date 2021-01-12
+	//*/
+
+		if(Config.Position === 'center')
+		NUI.Util.CenterInParent(NUIW.Container);
+
+		if(Config.Position instanceof NUI.Util.Vec2)
+		NUIW.Container.css({ 'left':`${Config.Position.X}`, 'left':`${Config.Position.Y}` });
+
+		return;
+	}
+
+	_MountWindow_Show(NUIW,Config) {
+	/*//
+	@date 2021-01-12
+	//*/
+
+		// show the window is told. after showing, if the window was
+		// suppose to be centered, just make sure it is.
+
+		if(Config.Show) {
+			NUIW.Show();
+
+			if(Config.Position === 'center')
+			NUI.Util.CenterInParent(NUIW.Container);
+
+			return;
+		}
+
+		// we did not tell desktop to auto show this window. if it
+		// is currently hidden then automatically send it to the
+		// minimize tray.
+
+		if(NUIW.Container.hasClass('Hidden'))
+		NUIW.Minimize();
+
+		return;
+	}
 
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////

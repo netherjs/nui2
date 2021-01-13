@@ -1,5 +1,5 @@
 /*// nether-onescript //
-@date 2021-01-12 20:12:20
+@date 2021-01-12 22:03:11
 @files [
     "src\\\/\/src\/css\\nui-element-buttoncss",
     "src\\\/\/src\/css\\nui-element-desktopcss",
@@ -107,7 +107,7 @@
 	height: 100%;
 	z-index: 9001;
 
-	background: rgb(255,0,0,0.25);
+	background: rgb(0,0,0,0.25);
 }
 
 /*/////////////////////////////////////////////////////////////////////////

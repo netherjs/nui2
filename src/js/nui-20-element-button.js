@@ -9,6 +9,8 @@ NUI.Element.Button = class extends NUI.Element.Base {
 		Container = 'body';
 		Text = '';
 		Class = '';
+		OnClick = '';
+		OnDoubleClick = '';
 	};
 
 	Events = new class extends NUI.Util.ConfigStruct {
@@ -41,6 +43,12 @@ NUI.Element.Button = class extends NUI.Element.Base {
 			.addClass(this.Config.Class)
 			.html(this.Config.Text)
 		);
+
+		if(this.Config.OnClick)
+		this.Container.on('click',this.Config.OnClick.bind(this));
+
+		if(this.Config.OnDoubleClick)
+		this.Container.on('dblclick',this.Config.OnDoubleClick.bind(this));
 
 		return;
 	}
