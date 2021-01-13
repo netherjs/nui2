@@ -48,65 +48,76 @@ jQuery(document)
 
 	let Desktop = new NUI.Element.Desktop;
 
-	let Window1 = new NUI.Element.Window({
-		'Title': 'Window 1',
-		'Container': null,
-		'Icon': 'fas fa-cog',
-		'Movable': false,
-		'Resizable': false
-	});
+	let DemoGlitch = (
+		new NUI.Element.Window({
+			'Title': 'Demo Glitch',
+			'Container': null,
+			'Icon': 'fas fa-bomb',
+			'Resizable': false,
+			'Footer': false,
+			'Buttons': [
+				new NUI.Element.Button({ 'Text':'Yah' }),
+				new NUI.Element.Button({ 'Text':'Nah' })
+			],
+			'Content': (
+				'<span class="Rand1">Loading...</span>'+
+				'<span class="Rand2"></span>'+
+				'<span class="Rand3"></span>'
+			)
+		})
+		.Register(
+			'Load', 'Test',
+			function(){
+				let GetBinaryShit = function(){ return (
+					parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
+					.toString(2)
+					.replace(/(\d)/g,'$1 ')
+				); };
 
-	let Window2 = new NUI.Element.Window({
-		'Title': 'Window 2',
-		'Container': null,
-		'Icon': 'fas fa-wrench',
-		'Resizable': false,
-		'Footer': false,
-		'Buttons': [
-			new NUI.Element.Button({ 'Text':'Yah', 'Class':'NUI-Action-Accept' }),
-			new NUI.Element.Button({ 'Text':'Nah', 'Class':'NUI-Action-Cancel' })
-		],
-		'Content': (
-			'<span class="Rand1">Loading...</span>'+
-			'<span class="Rand2"></span>'+
-			'<span class="Rand3"></span>'
-		)
-	})
-	.Register(
-		'Load', 'Test',
-		function(){
-			let GetBinaryShit = function(){ return (
-				parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
-				.toString(2)
-				.replace(/(\d)/g,'$1 ')
-			); };
+				this.Timer = setInterval((function(){
+					this.SetTitle(GetBinaryShit());
 
-			this.Timer = setInterval((function(){
-				this.SetTitle(GetBinaryShit());
+					for(let Iter=1; Iter<=3; Iter++)
+					this.Content
+					.find(`span.Rand${Iter}`)
+					.text(GetBinaryShit());
 
-				for(let Iter=1; Iter<=3; Iter++)
-				this.Content
-				.find(`span.Rand${Iter}`)
-				.text(GetBinaryShit());
-
+					return;
+				}).bind(this),150);
 				return;
-			}).bind(this),150);
-			return;
-		}
-	)
-	.Register(
-		'QuitPre', 'Test',
-		function(){
-			if(this.Timer)
-			clearInterval(this.Timer);
+			}
+		)
+		.Register(
+			'QuitPre', 'Test',
+			function(){
+				if(this.Timer)
+				clearInterval(this.Timer);
 
-			this.Timer = null;
-			return;
-		}
+				this.Timer = null;
+				return;
+			}
+		)
 	);
 
-	Desktop.MountWindow(Window1,{'Pinned':true,'Show':false});
-	Desktop.MountWindow(Window2,{'Pinned':true,'Show':true});
+	let DemoDialog = (
+		new NUI.Element.WindowDialog({
+			'Modal': true,
+			'Title': 'Do you?',
+			'Container': null,
+			'Icon': 'fas fa-question-circle',
+			'Content': 'Well?',
+			'Buttons': [
+				new NUI.Element.Button({ 'Text':'Probably', 'Class': 'NUI-Action-Accept' })
+			]
+		})
+		.Register(
+			'Accept', 'AppOnAccept',
+			function(){ this.Close(); return; }
+		)
+	);
+
+	Desktop.MountWindow(DemoGlitch,{'Pinned':true,'Show':false});
+	Desktop.MountWindow(DemoDialog,{'Pinned':true,'Show':true});
 
 	return;
 });

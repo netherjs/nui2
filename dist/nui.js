@@ -1,5 +1,5 @@
 /*// nether-onescript //
-@date 2021-01-12 22:17:11
+@date 2021-01-13 21:17:32
 @files [
     "src\\\/\/src\/js\\nui-00-mainjs",
     "src\\\/\/src\/js\\nui-10-elementjs",
@@ -10,7 +10,8 @@
     "src\\\/\/src\/js\\nui-20-element-desktopjs",
     "src\\\/\/src\/js\\nui-20-element-overlayjs",
     "src\\\/\/src\/js\\nui-20-element-terminaljs",
-    "src\\\/\/src\/js\\nui-20-element-windowjs"
+    "src\\\/\/src\/js\\nui-20-element-windowjs",
+    "src\\\/\/src\/js\\nui-30-element-window-dialogjs"
 ]
 //*/
 
@@ -374,12 +375,8 @@ NUI.Element.Base = class {
 	@date 2021-01-07
 	//*/
 
-		if(typeof this.Events[EventName] === 'undefined') {
-			if(this.Config.Debug)
-			this.Log(`Register: Unknown Event ${EventName}`);
-
-			return this;
-		}
+		if(typeof this.Events[EventName] === 'undefined')
+		this.Events[EventName] = {};
 
 		this.Events[EventName][KeyName] = Callable;
 		return this;
@@ -1160,6 +1157,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 	Config = new class extends NUI.Util.ConfigStruct {
 		ID = `${(new Date).getTime()}`;
+		Class = '';
 		Container = 'body';
 		Title = 'NUI.Element.Window';
 		Content = '';
@@ -1260,11 +1258,12 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		this.Container = (
 			jQuery('<div />')
 			.addClass('NUI-Element-Window Hidden Animate')
+			.addClass(this.Config.Class)
 			.append(this.Header)
 			.append(this.Content)
 			.append(this.Buttons)
 			.append(this.Footer)
-			.on('mousedown',(function(){ this.OnClick(); }).bind(this))
+			.on('mousedown',(function(){ this.OnClick(); return false; }).bind(this))
 		);
 
 		// handle initial positioning.
@@ -1358,6 +1357,10 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		(Element)
 		.on('mousedown',(function(){ this.SetMoveMode(true); return; }).bind(this));
 
+		if(this.Config.Modal) {
+			this.HeaderBtnMin.addClass('d-none');
+			this.HeaderBtnMax.addClass('d-none');
+		}
 
 		(this.HeaderBtnClose)
 		.on('mousedown',function(){ return false; })
@@ -1403,9 +1406,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		.each(function(){
 
 			Element
-			.append(
-				this.Container
-			)
+			.append(this.Container)
 
 			return;
 		});
@@ -1815,4 +1816,47 @@ NUI.Element.Window = class extends NUI.Element.Base {
 	};
 
 }
+
+///////////////////////////////////////////////////////////////////////////
+// src\//src/js\nui-30-element-window-dialogjs ////////////////////////////
+
+NUI.Element.WindowDialog = class extends NUI.Element.Window {
+/*//
+@date 2021-01-13
+a version of the window class pretuned to work better for modal
+dialog windows to ask simple questions.
+//*/
+
+	constructor(Opt) {
+
+		let OptExtend = {
+			'Footer': false,
+			'Resizable': false
+		};
+
+		NUI.Util.MergeProperties(Opt,OptExtend);
+		super(OptExtend);
+
+		this.Container
+		.on(
+			'click',
+			'.NUI-Action-Accept',
+			(function(){
+				this.CallEventHandlers('Accept');
+				return false;
+			}).bind(this)
+		)
+		.on(
+			'click',
+			'.NUI-Action-Cancel',
+			(function(){
+				this.CallEventHandlers('Cancel');
+				return false;
+			}).bind(this)
+		)
+
+		return;
+	}
+
+};
 

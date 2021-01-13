@@ -14,6 +14,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 
 	Config = new class extends NUI.Util.ConfigStruct {
 		ID = `${(new Date).getTime()}`;
+		Class = '';
 		Container = 'body';
 		Title = 'NUI.Element.Window';
 		Content = '';
@@ -114,11 +115,12 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		this.Container = (
 			jQuery('<div />')
 			.addClass('NUI-Element-Window Hidden Animate')
+			.addClass(this.Config.Class)
 			.append(this.Header)
 			.append(this.Content)
 			.append(this.Buttons)
 			.append(this.Footer)
-			.on('mousedown',(function(){ this.OnClick(); }).bind(this))
+			.on('mousedown',(function(){ this.OnClick(); return false; }).bind(this))
 		);
 
 		// handle initial positioning.
@@ -212,6 +214,10 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		(Element)
 		.on('mousedown',(function(){ this.SetMoveMode(true); return; }).bind(this));
 
+		if(this.Config.Modal) {
+			this.HeaderBtnMin.addClass('d-none');
+			this.HeaderBtnMax.addClass('d-none');
+		}
 
 		(this.HeaderBtnClose)
 		.on('mousedown',function(){ return false; })
@@ -257,9 +263,7 @@ NUI.Element.Window = class extends NUI.Element.Base {
 		.each(function(){
 
 			Element
-			.append(
-				this.Container
-			)
+			.append(this.Container)
 
 			return;
 		});

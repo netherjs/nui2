@@ -11,6 +11,7 @@
 	--NUI-Element-Window-Border-Colour: var(--NUI-Element-Window-Colour1);
 	--NUI-Element-Window-Border-Style: solid;
 	--NUI-Element-Window-Border-Width: 2px;
+	--NUI-Element-Window-Border-Radius: 2px;
 }
 
 
@@ -27,6 +28,7 @@
 
 	background-color: var(--NUI-Element-Window-Box-Colour);
 	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	border-radius: var(--NUI-Element-Window-Border-Radius);
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
 	text-shadow: var(--NUI-Element-Window-Text-Shadow);
 }
@@ -85,6 +87,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	text-align: center;
 }
 
 .NUI-Element-Window > nav > button {

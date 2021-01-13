@@ -26,12 +26,8 @@ NUI.Element.Base = class {
 	@date 2021-01-07
 	//*/
 
-		if(typeof this.Events[EventName] === 'undefined') {
-			if(this.Config.Debug)
-			this.Log(`Register: Unknown Event ${EventName}`);
-
-			return this;
-		}
+		if(typeof this.Events[EventName] === 'undefined')
+		this.Events[EventName] = {};
 
 		this.Events[EventName][KeyName] = Callable;
 		return this;
