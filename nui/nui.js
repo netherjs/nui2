@@ -5,6 +5,8 @@ import Element from "./core/element.js";
 
 export default class {
 
+	static Version = '0.0.1';
+
 	static Library = Library;
 	static Util = Util;
 	static Mouse = new Mouse;
