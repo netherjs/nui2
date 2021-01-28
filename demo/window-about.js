@@ -26,6 +26,10 @@ export default class extends Dialog {
 			'Accept', 'AppOnAccept',
 			function(){ this.Quit(); return; }
 		)
+		.Register(
+			'Cancel', 'AppOnCancel',
+			function(){ this.Quit(); return; }
+		)
 
 		return;
 	}

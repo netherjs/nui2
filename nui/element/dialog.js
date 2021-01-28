@@ -1,11 +1,23 @@
-import NUI from "../nui.js";
+import Util from "../core/util.js";
 import Window from "../element/window.js";
 
 export default class extends Window {
 /*//
 @date 2021-01-13
 a version of the window class pretuned to work better for modal
-dialog windows to ask simple questions.
+dialog windows to ask simple questions. the close button will
+emit the NUI-Action-Cancel event rather than actually close the
+window. to make the most use you would want to pack it with buttons
+that have an NUI-Action class on them.
+
+* NUI-Action-Accept
+  when the user has decided to accept whatever the dialog is
+  trying to get them to accept.
+
+* NUI-Action-Cancel
+  when the user does not accept whatever the dialog is trying
+  to get them to accept.
+
 //*/
 
 	constructor(Opt) {
@@ -15,7 +27,7 @@ dialog windows to ask simple questions.
 			'Resizable': false
 		};
 
-		NUI.Util.MergeProperties(Opt,OptExtend);
+		Util.MergeProperties(Opt,OptExtend);
 		super(OptExtend);
 
 		(this.Container)

@@ -2,6 +2,7 @@ import NUI from "../nui/nui.js";
 import Dialog from "../nui/element/dialog.js";
 import Button from "../nui/element/button.js";
 import Vec2 from "../nui/util/vec2.js";
+import Mouse from "../nui/core/mouse.js";
 
 export default class extends Dialog {
 
@@ -62,7 +63,7 @@ export default class extends Dialog {
 	@date 2021-01-28
 	//*/
 
-		let Pos = NUI.Mouse.GetPos();
+		let Pos = Mouse.GetPos();
 		let Jitter = new Vec2(
 			(Math.floor(Math.random() * 100) - 50),
 			(Math.floor(Math.random() * 100) - 50)

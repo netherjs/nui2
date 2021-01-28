@@ -7,9 +7,10 @@ export default class {
 
 	static Version = '2.0.0-dev';
 
-	static Library = Library;
+	// @deprecated
+	// these were in heavy use before being written to use the
+	// es6 module system.
+
 	static Util = Util;
-	static Mouse = new Mouse;
-	static Element = Element;
 
 };

@@ -1,13 +1,12 @@
 import Vec2 from "../util/vec2.js";
 
-export default class {
+let Mouse = new class {
 
 	Queue = [];
 	LastX = 0;
 	LastY = 0;
 
 	constructor() {
-
 		let OnMouseMove;
 
 		OnMouseMove = function(Ev){
@@ -104,3 +103,5 @@ export default class {
 	}
 
 };
+
+export default Mouse;

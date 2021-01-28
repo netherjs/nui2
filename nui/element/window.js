@@ -1,10 +1,15 @@
 import NUI from "../nui.js";
 import ConfigStruct from "../util/config-struct.js";
 import Base from "../element/base.js";
+import Mouse from "../core/mouse.js";
 
 export default class extends Base {
 /*//
 @date 2021-01-07
+if all you need is a window to contain stuff that can be moved
+around, minimized, or whatnot, then this is the class you should
+use. if you'd like to ask like the user a simple question the
+more tailored version called Dialog may be more use.
 //*/
 
 	ObjectType = 'NUI-Element-Window';
@@ -414,7 +419,7 @@ export default class extends Base {
 				return;
 			}).bind(this));
 
-			NUI.Mouse.Register(this.Container);
+			Mouse.Register(this.Container);
 			this.CallEventHandlers('MoveStart');
 		}
 
@@ -425,7 +430,7 @@ export default class extends Base {
 			jQuery(document)
 			.off(EvName);
 
-			NUI.Mouse.Unregister(this.Container);
+			Mouse.Unregister(this.Container);
 			this.CallEventHandlers('MoveStop');
 		}
 
@@ -440,8 +445,8 @@ export default class extends Base {
 		let EvName = `mousemove.${this.ObjectType}-${this.ID}-Resize`;
 		let EvKill = `mouseup.${this.ObjectType}-${this.ID}-Resize`;
 		let Pos = this.Container.offset();
-		let OffsetX = (Pos.left + this.Container.width()) - NUI.Mouse.LastX;
-		let OffsetY = (Pos.top + this.Container.height()) - NUI.Mouse.LastY;
+		let OffsetX = (Pos.left + this.Container.width()) - Mouse.LastX;
+		let OffsetY = (Pos.top + this.Container.height()) - Mouse.LastY;
 
 		if(Mode) {
 			NUI.Util.ClearSelections();
@@ -454,10 +459,10 @@ export default class extends Base {
 				let Pos = this.Container.offset();
 
 				this.Container
-				.width(Math.round((NUI.Mouse.LastX - Pos.left) + OffsetX));
+				.width(Math.round((Mouse.LastX - Pos.left) + OffsetX));
 
 				this.Container
-				.height(Math.round((NUI.Mouse.LastY - Pos.top) + OffsetY));
+				.height(Math.round((Mouse.LastY - Pos.top) + OffsetY));
 
 			}).bind(this,OffsetX,OffsetY))
 			.on(EvKill,(function(){
