@@ -23,14 +23,15 @@ $Files = array_filter(
 	(fn($File)=>preg_match($FileFilter,$File))
 );
 
-$FP = fopen($OutputFile,'w');
-foreach($Files as $File) {
-	fwrite($FP,"/*{$Stars(80-2)}\n");
-	fwrite($FP,"** {$File} {$Stars(80-4-strlen($File))}\n");
-	fwrite($FP,"{$Stars(78)}*/\n\n");
-	fwrite($FP,"{$Value(trim(file_get_contents($File)))}\n\n");
+if($FP = fopen($OutputFile,'w')) {
+	foreach($Files as $File) {
+		fwrite($FP,"/*{$Stars(80-2)}\n");
+		fwrite($FP,"** {$File} {$Stars(80-4-strlen($File))}\n");
+		fwrite($FP,"{$Stars(78)}*/\n\n");
+		fwrite($FP,"{$Value(trim(file_get_contents($File)))}\n\n");
+	}
+	fclose($FP);
 }
-fclose($FP);
 
 header("content-type: {$OutputType}");
 echo file_get_contents($OutputFile);
