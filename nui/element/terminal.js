@@ -1,6 +1,6 @@
-import NUI from "../nui.js";
 import ConfigStruct from "../util/config-struct.js";
 import Base from "../element/base.js";
+import Util from "../core/util.js";
 
 export default class extends Base {
 
@@ -225,12 +225,12 @@ export default class extends Base {
 		let BaseCommand = Command.split(" ",1)[0];
 		let Colour;
 
-		NUI.Util.Log(`Command: "${Command}"`);
-		NUI.Util.Log(`BaseCommand: "${BaseCommand}"`);
+		Util.Log(`Command: "${Command}"`);
+		Util.Log(`BaseCommand: "${BaseCommand}"`);
 
 		if(BaseCommand === 'colour') {
 			Colour = Command.replace(/^colour /,'');
-			NUI.Util.Log(`Colour: ${Colour}`);
+			Util.Log(`Colour: ${Colour}`);
 
 			(document.documentElement.style)
 			.setProperty('--NUI-Element-Window-Colour1',Colour);

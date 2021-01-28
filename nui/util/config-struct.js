@@ -1,4 +1,4 @@
-import NUI from "../nui.js";
+import Util from "../core/util.js";
 
 export default class {
 
@@ -15,7 +15,7 @@ export default class {
 	@date 2021-01-27
 	//*/
 
-		NUI.Util.MergeProperties(Opt,this);
+		Util.MergeProperties(Opt,this);
 		return this;
 	};
 

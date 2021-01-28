@@ -1,4 +1,4 @@
-import NUI from "../nui.js"
+import Util from "../core/util.js";
 
 export default class {
 
@@ -91,7 +91,7 @@ export default class {
 	@date 2021-01-08
 	//*/
 
-		return NUI.Util.Log(Msg,this.ObjectType);
+		return Util.Log(Msg,this.ObjectType);
 	};
 
 	DebugRegisterEvents() {

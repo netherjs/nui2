@@ -1,7 +1,7 @@
-import NUI from "../nui.js";
 import Base from "../element/base.js";
 import ConfigStruct from "../util/config-struct.js";
 import Vec2 from "../util/vec2.js";
+import Util from "../core/util.js";
 
 export default class extends Base {
 /*//
@@ -89,7 +89,7 @@ export default class extends Base {
 			'Position': null
 		};
 
-		NUI.Util.MergeProperties(Opt,Config);
+		Util.MergeProperties(Opt,Config);
 
 		// put this window into our dom.
 
@@ -253,7 +253,7 @@ export default class extends Base {
 	//*/
 
 		if(Config.Position === 'center')
-		NUI.Util.CenterInParent(NUIW.Container);
+		Util.CenterInParent(NUIW.Container);
 
 		if(Config.Position instanceof Vec2)
 		NUIW.Container.css({ 'left':`${Config.Position.X}`, 'left':`${Config.Position.Y}` });
@@ -273,7 +273,7 @@ export default class extends Base {
 			NUIW.Show();
 
 			if(Config.Position === 'center')
-			NUI.Util.CenterInParent(NUIW.Container);
+			Util.CenterInParent(NUIW.Container);
 
 			return;
 		}

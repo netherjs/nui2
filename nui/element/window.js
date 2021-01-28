@@ -1,7 +1,7 @@
-import NUI from "../nui.js";
 import ConfigStruct from "../util/config-struct.js";
 import Base from "../element/base.js";
 import Mouse from "../core/mouse.js";
+import Util from "../core/util.js";
 
 export default class extends Base {
 /*//
@@ -137,15 +137,15 @@ more tailored version called Dialog may be more use.
 
 			this.Register(
 				When, 'AutoCenter',
-				(function(){ NUI.Util.CenterInParent(this.Container); return; }).bind(this)
+				(function(){ Util.CenterInParent(this.Container); return; }).bind(this)
 			);
 
 			if(this.Modal)
 			jQuery(window)
-			.on('resize',(function(){ NUI.Util.CenterInParent(this.Container); return; }).bind(this));
+			.on('resize',(function(){ Util.CenterInParent(this.Container); return; }).bind(this));
 		}
 
-		else if(this.Config.Position instanceof NUI.Util.Vec2) {
+		else if(this.Config.Position instanceof Util.Vec2) {
 			this.Container.css({
 				'left': `${this.Config.Position.X}px`,
 				'top': `${this.Config.Position.Y}px`
@@ -408,7 +408,7 @@ more tailored version called Dialog may be more use.
 		return;
 
 		if(Mode) {
-			NUI.Util.ClearSelections();
+			Util.ClearSelections();
 
 			this.Container
 			.addClass('MoveMode');
@@ -449,7 +449,7 @@ more tailored version called Dialog may be more use.
 		let OffsetY = (Pos.top + this.Container.height()) - Mouse.LastY;
 
 		if(Mode) {
-			NUI.Util.ClearSelections();
+			Util.ClearSelections();
 
 			this.Container
 			.addClass('ResizeMode');
@@ -507,7 +507,7 @@ more tailored version called Dialog may be more use.
 	@date 2021-01-09
 	//*/
 
-		NUI.Util.ClearSelections();
+		Util.ClearSelections();
 
 		if(!this.Container.hasClass('Maximized')) {
 			(this.Container)
@@ -531,7 +531,7 @@ more tailored version called Dialog may be more use.
 	@date 2021-01-09
 	//*/
 
-		NUI.Util.ClearSelections();
+		Util.ClearSelections();
 
 		if(!this.Container.hasClass('Minimized')) {
 			(this.Container)
