@@ -7,8 +7,8 @@ import DemoWindowBombed from "./demo/window-bombed.js";
 
 	let Desk = new Desktop;
 
-	Desk.MountWindow((new DemoWindowAbout),{Pinned:true});
-	Desk.MountWindow((new DemoWindowBombed),{Pinned:true,Show:false});
+	Desk.MountWindow((new DemoWindowAbout),{Pinned:true,Show:false});
+	Desk.MountWindow((new DemoWindowBombed),{Pinned:true,Show:true});
 
 	return;
 });

@@ -8,7 +8,7 @@ export default class extends Dialog {
 		super({
 			'Modal': true,
 			'Title': 'About NUI2',
-			'Icon': 'fas fa-laugh-squint',
+			'Icon': 'fas fa-asterisk',
 			'Class': 'Padded',
 			'Content': (`
 				<h4 class="font-weight-bold mb-2">Nether UI (NUI) v${NUI.Version}</h4>
