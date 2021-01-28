@@ -1,5 +1,4 @@
-
-NUI.Element.Base = class {
+export default class {
 
 	ObjectType = null;
 	ID = null;

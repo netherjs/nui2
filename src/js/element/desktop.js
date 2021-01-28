@@ -1,5 +1,4 @@
-
-NUI.Element.Desktop = class extends NUI.Element.Base {
+export default class extends NUI.Element.Base {
 /*//
 @date 2021-01-08
 //*/

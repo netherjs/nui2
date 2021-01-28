@@ -1,4 +1,0 @@
-
-NUI = new class {
-
-};

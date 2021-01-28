@@ -1,12 +1,11 @@
+export default class {
 
-NUI.Util = new class {
-
-	ConfigStruct = class {
+	static ConfigStruct = class {
 		Count(Key) { return Object.keys(this[Key]).length; }
 		Push(Opt) { NUI.Util.MergeProperties(Opt,this); return this; }
 	};
 
-	Vec2 = class {
+	static Vec2 = class {
 		X = 0;
 		Y = 0;
 
@@ -16,7 +15,7 @@ NUI.Util = new class {
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
-	CenterInParent(child,parent) {
+	static CenterInParent(child,parent) {
 	/*//
 	@argv jQuery ChildObject, jQuery ParentObject
 	given these two objects, we will attempt to center the child object
@@ -70,7 +69,7 @@ NUI.Util = new class {
 		return;
 	};
 
-	MergeProperties(Dom,Sub) {
+	static MergeProperties(Dom,Sub) {
 	/*//
 	@argv object Override, object Original
 	will overwrite the original properties from the original object with
@@ -89,7 +88,7 @@ NUI.Util = new class {
 		return;
 	};
 
-	CopyToClipboard(What) {
+	static CopyToClipboard(What) {
 	/*//
 	@date 2021-01-09
 	copy the specified text to the clipboard. the source element will have its content
@@ -124,7 +123,7 @@ NUI.Util = new class {
 		return false;
 	};
 
-	CopyElementToClipboard(e) {
+	static CopyElementToClipboard(e) {
 	/*//
 	@date 2021-01-09
 	copy an element's text to the clipboard. the element that triggered this should have
@@ -145,7 +144,7 @@ NUI.Util = new class {
 		return false;
 	};
 
-	CopyValueToClipboard(e) {
+	static CopyValueToClipboard(e) {
 	/*//
 	@date 2021-01-09
 	copy an element's value to the clipboard. the element that triggered this should have
@@ -164,7 +163,7 @@ NUI.Util = new class {
 		return false;
 	};
 
-	FilterArrayUnique(Input) {
+	static FilterArrayUnique(Input) {
 	/*//
 	@date 2021-01-09
 	//*/
@@ -174,7 +173,7 @@ NUI.Util = new class {
 		});
 	};
 
-	FilterArrayStrip(Input,ToRemove) {
+	static FilterArrayStrip(Input,ToRemove) {
 	/*//
 	@date 2021-01-09
 	//*/
@@ -184,7 +183,7 @@ NUI.Util = new class {
 		});
 	};
 
-	ClearSelections() {
+	static ClearSelections() {
 	/*//
 	@date 2021-01-08
 	tries to disable any text selections that currently exist, as they tend
@@ -202,7 +201,7 @@ NUI.Util = new class {
 		return;
 	};
 
-	Log(Msg,Key) {
+	static Log(Msg,Key) {
 	/*//
 	@date 2021-01-08
 	//*/

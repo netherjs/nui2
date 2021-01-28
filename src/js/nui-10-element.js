@@ -1,4 +1,0 @@
-
-NUI.Element = new class {
-
-};

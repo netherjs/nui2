@@ -21,32 +21,82 @@
 
 	<!-- NUI-->
 	<link rel="stylesheet" type="text/css" href="/dist/nui.css.php" />
-	<script type="text/javascript" src="/dist/nui.js.php"></script>
 
 	<!-- -------- -->
 
 	<style type="text/css">
 	@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 	* { font-family: 'Share Tech Mono', sans-serif; }
+	html { background: #111; }
 	</style>
-
-	<script type="text/javascript">
-	jQuery
-	.ready(function(){
-
-		return;
-	});
-	</script>
 
 </head>
 <body>
 
-<script type="text/javascript">
+<script type="module">
+import Desktop from "./nui/element/desktop.js";
+import Window from "./nui/element/window.js";
+import Button from "./nui/element/button.js";
 
-jQuery(document)
-.ready(function(){
+(document)
+.addEventListener('DOMContentLoaded',function(Ev){
 
-	let Desktop = new NUI.Element.Desktop;
+	let Desk = new Desktop;
+
+	let Demo1 = (
+		new Window({
+			'Title': 'Demo1',
+			'Container': null,
+			'Icon': 'fas fa-bomb',
+			'Resizable': false,
+			'Footer': false,
+			'Buttons': [
+				new Button({ 'Text':'Yah' }),
+				new Button({ 'Text':'Nah' })
+			],
+			'Content': (
+				'<span class="Rand1">Loading...</span>'+
+				'<span class="Rand2"></span>'+
+				'<span class="Rand3"></span>'
+			)
+		})
+		.Register(
+			'Load', 'Test',
+			function(){
+				let GetBinaryShit = function(){ return (
+					parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
+					.toString(2)
+					.replace(/(\d)/g,'$1 ')
+				); };
+
+				this.Timer = setInterval((function(){
+					this.SetTitle(GetBinaryShit());
+
+					for(let Iter=1; Iter<=3; Iter++)
+					this.Content
+					.find(`span.Rand${Iter}`)
+					.text(GetBinaryShit());
+
+					return;
+				}).bind(this),150);
+				return;
+			}
+		)
+		.Register(
+			'QuitPre', 'Test',
+			function(){
+				if(this.Timer)
+				clearInterval(this.Timer);
+
+				this.Timer = null;
+				return;
+			}
+		)
+	);
+
+	Desk.MountWindow(Demo1,{'Pinned':true});
+
+	/*
 
 	let DemoGlitch = (
 		new NUI.Element.Window({
@@ -116,8 +166,9 @@ jQuery(document)
 		)
 	);
 
-	Desktop.MountWindow(DemoGlitch,{'Pinned':true,'Show':false});
-	Desktop.MountWindow(DemoDialog,{'Pinned':true,'Show':true});
+	Desk.MountWindow(DemoGlitch,{'Pinned':true,'Show':false});
+	Desk.MountWindow(DemoDialog,{'Pinned':true,'Show':true});
+	*/
 
 	return;
 });
