@@ -22,6 +22,8 @@
 	width: 100%;
 	overflow: hidden;
 	background: #111111;
+
+	transform: translateZ(0);
 }
 
 .NUI-Element-Desktop .AppTray {

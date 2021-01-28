@@ -75,11 +75,10 @@ export default class extends Dialog {
 				'color':'var(--NUI-Element-Window-Box-Colour)',
 				'text-shadow': '0px 0px 30px var(--NUI-Element-Window-Text-Colour)',
 				'position':'absolute',
-				'left':`${(Pos.X - 32) + Jitter.X}px`,
-				'top':`${(Pos.Y - 32) + Jitter.Y}px`,
+				'left':`${(Pos.X - 32 + Jitter.X)}px`,
+				'top':`${(Pos.Y - 32 + Jitter.Y)}px`,
 				'z-index': (parseInt(this.Container.css('z-index')) + 42),
 				'font-size': '64px',
-				'transform': 'translate3d(0px,0px,1px)'
 			})
 		);
 
