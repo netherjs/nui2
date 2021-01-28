@@ -5,7 +5,7 @@ import Element from "./core/element.js";
 
 export default class {
 
-	static Version = '0.0.1';
+	static Version = '2.0.0-dev';
 
 	static Library = Library;
 	static Util = Util;

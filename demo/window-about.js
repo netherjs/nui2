@@ -9,8 +9,11 @@ export default class extends Dialog {
 			'Modal': true,
 			'Title': 'About NUI2',
 			'Icon': 'fas fa-laugh-squint',
+			'Class': 'Padded',
 			'Content': (`
-				<div class="text-center">Nether UI (NUI) v${NUI.Version}</div>
+				<h4 class="font-weight-bold mb-2">Nether UI (NUI) v${NUI.Version}</h4>
+				<div class="mb-4"><a href="https://github.com/netherjs/nui2" target="_blank"><i class="fa-fw fab fa-github"></i> Github</a></div>
+				<div>NUI is a Javascript UI toolkit written by someone who hates Javascript.</div>
 			`),
 			'ButtonPacking': 'End',
 			'Buttons': [

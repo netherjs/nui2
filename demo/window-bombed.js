@@ -1,7 +1,7 @@
-import Window from "../nui/element/window.js";
+import Dialog from "../nui/element/dialog.js";
 import Button from "../nui/element/button.js";
 
-export default class extends Window {
+export default class extends Dialog {
 
 	constructor() {
 		super({

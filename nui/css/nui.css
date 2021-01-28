@@ -187,6 +187,20 @@
 	scrollbar-color: var(--NUI-Element-Window-Colour1) var(--NUI-Element-Window-Colour2) !important;
 }
 
+.NUI-Element-Window a:link,
+.NUI-Element-Window a:visited {
+	color: var(--NUI-Element-Window-Text-Colour);
+	border-bottom: 1px dotted var(--NUI-Element-Window-Border-Colour);
+	text-decoration: none;
+}
+
+.NUI-Element-Window a:active,
+.NUI-Element-Window a:hover {
+	color: var(--NUI-Element-Window-Text-Colour);
+	border-bottom: 1px dotted var(--NUI-Element-Window-Border-Colour);
+	text-decoration: none;
+}
+
 .NUI-Element-Window > header {
 	border-bottom: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
 	box-shadow: var(--NUI-Element-Window-Box-Shadow);
@@ -292,5 +306,9 @@
 	width: 100% !important;
 	height: 100% !important;
 	border: 0px !important;
+}
+
+.NUI-Element-Window.Padded > section {
+	padding: 16px;
 }
 
