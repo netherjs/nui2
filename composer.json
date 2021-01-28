@@ -2,7 +2,6 @@
 	"require": {
 		"components/jquery": "^3.5",
 		"components/font-awesome": "^5.15",
-		"components/bootstrap": "^4.5",
-		"netherphp/onescript": "^4.0"
+		"components/bootstrap": "^4.5"
 	}
 }
