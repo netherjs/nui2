@@ -1,0 +1,296 @@
+/*******************************************************************************
+** nui-element-button.css ******************************************************
+*******************************************************************************/
+
+.NUI-Element-Button {
+	background: var(--NUI-Element-Window-Colour1);
+	border: 0px;
+	border-radius: var(--NUI-Element-Window-Border-Radius);
+	color: var(--NUI-Element-Window-Colour2);
+	padding: 2px 8px;
+}
+
+/*******************************************************************************
+** nui-element-desktop.css *****************************************************
+*******************************************************************************/
+
+.NUI-Element-Desktop {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	background: #111111;
+}
+
+.NUI-Element-Desktop .AppTray {
+	position: absolute;
+	z-index: 9000001;
+	background: #ffffff44;
+}
+
+/***************************************************************
+***************************************************************/
+
+.NUI-Element-Desktop .AppTray.Left {
+	top: 50%;
+	left: 0%;
+	transform: translate(0%,-50%);
+	padding: 0px;
+	max-height: 95%;
+}
+
+.NUI-Element-Dektop .AppTray.Left.AutoHide {
+	margin-left: -45px;
+}
+
+.NUI-Element-Desktop .AppTray.Left.AutoHide:hover {
+	margin-left: 0px;
+}
+
+.NUI-Element-Desktop .AppTray.Left.AutoHide.Animate {
+	transition: margin-left 300ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+.NUI-Element-Desktop .AppTray.Left.AutoHide.Animate:hover {
+	transition: margin-left 300ms cubic-bezier(0.075, 0.820, 0.165, 1.000) !important;
+}
+
+/***************************************************************
+***************************************************************/
+
+.NUI-Element-Desktop .AppTray .Subtray {
+	border: 0px solid var(--NUI-Element-Window-Colour1);
+	border-radius: 4px;
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Colour1);
+	font-size: 32px;
+	margin-bottom: 16px;
+	padding: 4px;
+}
+
+.NUI-Element-Desktop .AppTray .Subtray:last-of-type:not(.d-none) {
+	margin-bottom: 0px;
+}
+
+.NUI-Element-Desktop .AppTray .tooltip {
+	white-space: nowrap;
+}
+
+.NUI-Element-Desktop .AppTray hr {
+	border-color: var(--NUI-Element-Window-Border-Colour);
+	border-style: var(--NUI-Element-Window-Border-Style);
+	display: none;
+}
+
+.NUI-Element-Desktop .AppTray hr:last-child {
+	display: none;
+}
+
+/*******************************************************************************
+** nui-element-overlay.css *****************************************************
+*******************************************************************************/
+
+.NUI-Element-Overlay {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9001;
+
+	background: rgb(0,0,0,0.25);
+}
+
+/*******************************************************************************
+** nui-element-terminal.css ****************************************************
+*******************************************************************************/
+
+.Terminal {
+	background: rgba(200,0,0,0.0);
+	padding: 10px;
+}
+
+.Terminal .PaneTop {
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.Terminal .History {
+	opacity: 0.75;
+	margin-bottom: 10px;
+}
+
+.Terminal .Prompt {
+
+}
+
+.Terminal .Caret {
+	animation-name: BlinkEffect;
+	animation-duration: 0.75s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+.Terminal .Keyboard,
+.Terminal .Keyboard:focus {
+	border: 0px;
+	width: 0px;
+	height: 0px;
+	outline: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+/*******************************************************************************
+** nui-element-window.css ******************************************************
+*******************************************************************************/
+
+:root {
+	--NUI-Element-Window-Colour1: #ddd;
+	--NUI-Element-Window-Colour1a: #ddd2;
+	--NUI-Element-Window-Colour1b: #ddd6;
+	--NUI-Element-Window-Colour2: #111;
+
+	--NUI-Element-Window-Box-Colour: var(--NUI-Element-Window-Colour2);
+	--NUI-Element-Window-Box-Shadow: 0px 0px 16px var(--NUI-Element-Window-Colour1a), inset 0px 0px 16px var(--NUI-Element-Window-Colour1a);
+	--NUI-Element-Window-Text-Shadow: 0px 0px 16px var(--NUI-Element-Window-Colour1b);
+	--NUI-Element-Window-Text-Colour: var(--NUI-Element-Window-Colour1);
+	--NUI-Element-Window-Border-Colour: var(--NUI-Element-Window-Colour1);
+	--NUI-Element-Window-Border-Style: solid;
+	--NUI-Element-Window-Border-Width: 2px;
+	--NUI-Element-Window-Border-Radius: 2px;
+}
+
+
+.NUI-Element-Window {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	min-height: 200px;
+	min-width: 300px;
+	z-index: 9000;
+
+	display: flex;
+	flex-direction: column;
+
+	background-color: var(--NUI-Element-Window-Box-Colour);
+	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	border-radius: var(--NUI-Element-Window-Border-Radius);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	text-shadow: var(--NUI-Element-Window-Text-Shadow);
+}
+
+.NUI-Element-Window,
+.NUI-Element-Window * {
+	scrollbar-color: var(--NUI-Element-Window-Colour1) var(--NUI-Element-Window-Colour2) !important;
+}
+
+.NUI-Element-Window > header {
+	border-bottom: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+	flex-basis: 0;
+	padding: 1px 4px;
+}
+
+.NUI-Element-Window > section {
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+	flex-grow: 1;
+	overflow: hidden;
+	overflow-y: auto;
+	padding: 1px 4px;
+}
+
+.NUI-Element-Window > nav {
+	border-top: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+
+	display: flex;
+	align-items: center;
+	padding: 3px;
+}
+
+.NUI-Element-Window > footer {
+	border-top: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+	flex-basis: 0;
+	padding: 1px 4px;
+}
+
+.NUI-Element-Window > header .HeaderBtn:not(.Disabled) {
+	cursor: pointer;
+}
+
+.NUI-Element-Window > header .Icon {
+	flex-grow: 0;
+	margin-right: 3px;
+}
+
+.NUI-Element-Window > header .Title {
+	flex-grow: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.NUI-Element-Window > nav > button {
+	margin: 3px;
+}
+
+.NUI-Element-Window > nav.End {
+	justify-content: end;
+}
+
+.NUI-Element-Window > nav.End {
+	justify-content: start;
+}
+
+.NUI-Element-Window > nav.Center {
+	justify-content: Center;
+}
+
+.NUI-Element-Window > nav.Fill > button {
+	flex: 1;
+}
+
+.NUI-Element-Window > footer .GripResize {
+	cursor: nwse-resize;
+}
+
+.NUI-Element-Window.Hidden {
+	display: none;
+}
+
+.NUI-Element-Window.Movable > header {
+	cursor: move;
+}
+
+.NUI-Element-Window.Animate {
+	transform: scale(1.0);
+	transition: transform 500ms;
+}
+
+.NUI-Element-Window.Animate.Hidden {
+	transform: scale(0.0);
+	transition: transform 500ms;
+}
+
+.NUI-Element-Window.ResizeMode,
+.NUI-Element-Window.MoveMode {
+	user-select: none;
+}
+
+.NUI-Element-Window.Maximized {
+	top: 0px !important;
+	left: 0px !important;
+	width: 100% !important;
+	height: 100% !important;
+	border: 0px !important;
+}
+
