@@ -1,4 +1,4 @@
-import Vec2 from "../util/vec2.js";
+import Vec2 from "../struct/vec2.js";
 
 let Mouse = new class {
 

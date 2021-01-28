@@ -1,5 +1,5 @@
 import NUI from "../nui.js";
-import ConfigStruct from "../util/config-struct.js";
+import Config from "../struct/config.js";
 import Base from "../element/base.js";
 
 export default class extends Base {
@@ -9,14 +9,14 @@ export default class extends Base {
 
 	ObjectType = 'NUI-Element-Overlay';
 
-	Config = new class extends ConfigStruct {
+	Config = new class extends Config {
 		ID = `${(new Date).getTime()}`;
 		Container = 'body';
 		Content = '';
 		Debug = true;
 	};
 
-	Events = new class extends ConfigStruct {
+	Events = new class extends Config {
 		Ready = {};
 	};
 

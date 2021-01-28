@@ -1,7 +1,7 @@
 import NUI from "../nui/nui.js";
 import Dialog from "../nui/element/dialog.js";
 import Button from "../nui/element/button.js";
-import Vec2 from "../nui/util/vec2.js";
+import Vec2 from "../nui/struct/vec2.js";
 import Mouse from "../nui/core/mouse.js";
 
 export default class extends Dialog {

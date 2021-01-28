@@ -1,4 +1,4 @@
-import ConfigStruct from "../util/config-struct.js";
+import Config from "../struct/config.js";
 import Base from "../element/base.js";
 import Mouse from "../core/mouse.js";
 import Util from "../core/util.js";
@@ -19,7 +19,7 @@ more tailored version called Dialog may be more use.
 
 	// local configuration values.
 
-	Config = new class extends ConfigStruct {
+	Config = new class extends Config {
 		ID = `${(new Date).getTime()}`;
 		Class = '';
 		Container = 'body';
@@ -49,7 +49,7 @@ more tailored version called Dialog may be more use.
 
 	// local events registry.
 
-	Events = new class extends ConfigStruct {
+	Events = new class extends Config {
 		Ready = {};
 		Load = {};
 		ShowPre = {};

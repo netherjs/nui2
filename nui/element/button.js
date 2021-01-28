@@ -1,13 +1,13 @@
 import NUI from "../nui.js"
 import Base from "../element/base.js"
-import ConfigStruct from "../util/config-struct.js";
+import Config from "../struct/config.js";
 
 export default class extends Base {
 /*//
 @date 2021-01-12
 //*/
 
-	Config = new class extends ConfigStruct {
+	Config = new class extends Config {
 		ID = `${(new Date).getTime()}`;
 		Container = 'body';
 		Text = '';
@@ -16,7 +16,7 @@ export default class extends Base {
 		OnDoubleClick = '';
 	};
 
-	Events = new class extends ConfigStruct {
+	Events = new class extends Config {
 		Ready = {};
 	};
 

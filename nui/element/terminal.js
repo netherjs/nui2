@@ -1,14 +1,14 @@
-import ConfigStruct from "../util/config-struct.js";
+import Config from "../struct/config.js";
 import Base from "../element/base.js";
 import Util from "../core/util.js";
 
 export default class extends Base {
 
-	Config = new class extends ConfigStruct {
+	Config = new class extends Config {
 		Container = 'body';
 	};
 
-	Events = new class extends ConfigStruct {
+	Events = new class extends Config {
 
 	};
 

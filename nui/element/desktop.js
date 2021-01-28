@@ -1,6 +1,6 @@
 import Base from "../element/base.js";
-import ConfigStruct from "../util/config-struct.js";
-import Vec2 from "../util/vec2.js";
+import Config from "../struct/config.js";
+import Vec2 from "../struct/vec2.js";
 import Util from "../core/util.js";
 
 export default class extends Base {
@@ -10,14 +10,14 @@ export default class extends Base {
 
 	ObjectType = 'NUI-Element-Desktop';
 
-	Config = new class extends ConfigStruct {
+	Config = new class extends Config {
 		ID = `${(new Date).getTime()}`;
 		Container = 'body';
 		Content = '';
 		Debug = true;
 	};
 
-	Events = new class extends ConfigStruct {
+	Events = new class extends Config {
 		Ready = {};
 	};
 
