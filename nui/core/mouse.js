@@ -1,3 +1,5 @@
+import Vec2 from "../util/vec2.js";
+
 export default class {
 
 	Queue = [];
@@ -37,7 +39,9 @@ export default class {
 		}).bind(this));
 
 		return;
-	}
+	};
+
+	////////
 
 	Register(Obj){
 	/*//
@@ -62,7 +66,7 @@ export default class {
 		}
 
 		return;
-	}
+	};
 
 	Unregister(Obj){
 	/*//
@@ -84,6 +88,19 @@ export default class {
 		jQuery('body').removeClass('NUI-NoSelect');
 
 		return;
+	};
+
+	////////
+
+	GetPos() {
+	/*//
+	@date 2021-01-28
+	//*/
+
+		return new Vec2(
+			this.LastX,
+			this.LastY
+		);
 	}
 
 };

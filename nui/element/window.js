@@ -223,7 +223,15 @@ export default class extends Base {
 
 		(this.HeaderBtnClose)
 		.on('mousedown',function(){ return false; })
-		.on('click',(function(){ (this.Config.QuitOnClose?this.Quit():this.Close()); return; }).bind(this));
+		.on('click',(function(){
+			if(this.Config.QuitOnClose) {
+				this.Quit();
+				return;
+			}
+
+			this.Close();
+			return;
+		}).bind(this));
 
 		(this.HeaderBtnMax)
 		.on('mousedown',function(){ return false; })

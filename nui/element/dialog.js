@@ -18,23 +18,28 @@ dialog windows to ask simple questions.
 		NUI.Util.MergeProperties(Opt,OptExtend);
 		super(OptExtend);
 
-		this.Container
+		(this.Container)
 		.on(
-			'click',
-			'.NUI-Action-Accept',
+			'click', '.NUI-Action-Accept',
 			(function(){
 				this.CallEventHandlers('Accept');
 				return false;
 			}).bind(this)
 		)
 		.on(
-			'click',
-			'.NUI-Action-Cancel',
+			'click', '.NUI-Action-Cancel',
 			(function(){
 				this.CallEventHandlers('Cancel');
 				return false;
 			}).bind(this)
-		)
+		);
+
+		// make the close btn emit cancel instead of
+		// its default quit behaviour.
+
+		(this.HeaderBtnClose)
+		.off('click')
+		.addClass('NUI-Action-Cancel');
 
 		return;
 	}
