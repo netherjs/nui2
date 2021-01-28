@@ -1,5 +1,4 @@
-
-NUI.Move = new class {
+export default class {
 
 	Queue = [];
 	LastX = 0;

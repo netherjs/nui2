@@ -1,6 +1,6 @@
 import NUI from "../nui.js";
-import Base from "../element/base.js";
 import ConfigStruct from "../util/config-struct.js";
+import Base from "../element/base.js";
 
 export default class extends Base {
 /*//
@@ -407,7 +407,7 @@ export default class extends Base {
 				return;
 			}).bind(this));
 
-			NUI.Move.Register(this.Container);
+			NUI.Mouse.Register(this.Container);
 			this.CallEventHandlers('MoveStart');
 		}
 
@@ -418,7 +418,7 @@ export default class extends Base {
 			jQuery(document)
 			.off(EvName);
 
-			NUI.Move.Unregister(this.Container);
+			NUI.Mouse.Unregister(this.Container);
 			this.CallEventHandlers('MoveStop');
 		}
 
@@ -433,8 +433,8 @@ export default class extends Base {
 		let EvName = `mousemove.${this.ObjectType}-${this.ID}-Resize`;
 		let EvKill = `mouseup.${this.ObjectType}-${this.ID}-Resize`;
 		let Pos = this.Container.offset();
-		let OffsetX = (Pos.left + this.Container.width()) - NUI.Move.LastX;
-		let OffsetY = (Pos.top + this.Container.height()) - NUI.Move.LastY;
+		let OffsetX = (Pos.left + this.Container.width()) - NUI.Mouse.LastX;
+		let OffsetY = (Pos.top + this.Container.height()) - NUI.Mouse.LastY;
 
 		if(Mode) {
 			NUI.Util.ClearSelections();
@@ -447,10 +447,10 @@ export default class extends Base {
 				let Pos = this.Container.offset();
 
 				this.Container
-				.width(Math.round((NUI.Move.LastX - Pos.left) + OffsetX));
+				.width(Math.round((NUI.Mouse.LastX - Pos.left) + OffsetX));
 
 				this.Container
-				.height(Math.round((NUI.Move.LastY - Pos.top) + OffsetY));
+				.height(Math.round((NUI.Mouse.LastY - Pos.top) + OffsetY));
 
 			}).bind(this,OffsetX,OffsetY))
 			.on(EvKill,(function(){

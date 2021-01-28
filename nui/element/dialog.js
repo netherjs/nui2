@@ -1,5 +1,7 @@
+import NUI from "../nui.js";
+import Window from "../element/window.js";
 
-NUI.Element.WindowDialog = class extends NUI.Element.Window {
+export default class extends Window {
 /*//
 @date 2021-01-13
 a version of the window class pretuned to work better for modal

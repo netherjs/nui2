@@ -1,11 +1,14 @@
+import NUI from "../nui.js";
+import ConfigStruct from "../util/config-struct.js";
+import Base from "../element/base.js";
 
-NUI.Element.Terminal = class extends NUI.Element.Base {
+export default class extends Base {
 
-	Config = new class extends NUI.Util.ConfigStruct {
+	Config = new class extends ConfigStruct {
 		Container = 'body';
 	};
 
-	Events = new class extends NUI.Util.ConfigStruct {
+	Events = new class extends ConfigStruct {
 
 	};
 
@@ -112,13 +115,10 @@ NUI.Element.Terminal = class extends NUI.Element.Base {
 	@date 2021-01-07
 	//*/
 
-		let W = this.Container.parent().width();
 		let H = this.Container.parent().height();
 
 		(this.Container)
 		.css({ 'max-height':`${H}px`, 'height':`${H}px` });
-
-		//void(jQuery(this.Config.Container)[0].offsetLeft);
 
 		return;
 	};
@@ -241,7 +241,6 @@ NUI.Element.Terminal = class extends NUI.Element.Base {
 			(document.documentElement.style)
 			.setProperty('--NUI-Element-Window-Colour1b',(Colour + '99'));
 		}
-
 
 		return;
 	}

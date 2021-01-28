@@ -1,19 +1,22 @@
+import NUI from "../nui.js";
+import ConfigStruct from "../util/config-struct.js";
+import Base from "../element/base.js";
 
-NUI.Element.Overlay = class extends NUI.Element.Base {
+export default class extends Base {
 /*//
 @date 2021-01-08
 //*/
 
 	ObjectType = 'NUI-Element-Overlay';
 
-	Config = new class extends NUI.Util.ConfigStruct {
+	Config = new class extends ConfigStruct {
 		ID = `${(new Date).getTime()}`;
 		Container = 'body';
 		Content = '';
 		Debug = true;
 	};
 
-	Events = new class extends NUI.Util.ConfigStruct {
+	Events = new class extends ConfigStruct {
 		Ready = {};
 	};
 
@@ -61,6 +64,5 @@ NUI.Element.Overlay = class extends NUI.Element.Base {
 
 		return;
 	};
-
 
 }
