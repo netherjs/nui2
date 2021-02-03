@@ -25,8 +25,15 @@ export default class extends Base {
 	@date 2021-01-08
 	//*/
 
+		if(Opt instanceof Base)
+		Opt = { 'Content': Opt };
+
+		////////
+
 		super(Opt);
 		this.Config.Push(Opt);
+
+		////////
 
 		if(this.Config.Debug)
 		this.DebugRegisterEvents();

@@ -1,4 +1,5 @@
 import Desktop from "./nui/element/desktop.js";
+import Util from "./nui/core/util.js";
 import DemoWindowAbout from "./demo/window-about.js";
 import DemoWindowBombed from "./demo/window-bombed.js";
 

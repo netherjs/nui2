@@ -25,6 +25,8 @@
 
 	display: flex;
 	flex-direction: column;
+	max-height: 90%;
+	max-width: 90%;
 
 	background-color: var(--NUI-Element-Window-Box-Colour);
 	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
