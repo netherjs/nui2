@@ -1,13 +1,13 @@
 {
-	"name":"netherjs/nui2",
+	"name":"components/nui2",
 	"description":"A JS UI toolkit made by someone who hates JS.",
 	"keywords": [ "nether", "nui" ],
 	"license":"BSD-3-Clause",
 	"authors":[ {
-		"name":"Bob Majdak Jr",
-		"email":"bmajdak@php.net",
-		"homepage":"http://twitter.com/bobmagicii",
-		"role":"developer"
+		"name": "Bob Majdak Jr",
+		"email": "bmajdak@php.net",
+		"homepage": "http://twitter.com/bobmagicii",
+		"role": "developer"
 	} ],
 	"require": {
 		"components/jquery": "^3.5",
