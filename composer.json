@@ -1,5 +1,5 @@
 {
-	"name":"components/nui2",
+	"name":"netherjs/nui2",
 	"description":"A JS UI toolkit made by someone who hates JS.",
 	"keywords": [ "nether", "nui" ],
 	"license":"BSD-3-Clause",
