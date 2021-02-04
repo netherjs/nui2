@@ -30,6 +30,7 @@ more tailored version called Dialog may be more use.
 		Icon = 'far fa-window';
 		Position = 'center';
 		Modal = false;
+		Show = true;
 		QuitOnClose = true;
 		Header = true;
 		Footer = true;
@@ -105,6 +106,13 @@ more tailored version called Dialog may be more use.
 
 		this.ID = this.Config.ID;
 		this.ConstructUI();
+
+		if(this.Config.Show)
+		this.Register('Ready','Config.Show',function(){
+			this.Unregister('Ready','Config.Show');
+			this.Show();
+		})
+
 		this.CallEventHandlers('Ready');
 		return;
 	};
