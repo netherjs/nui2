@@ -135,7 +135,7 @@ more tailored version called Dialog may be more use.
 			.append(this.Content)
 			.append(this.Buttons)
 			.append(this.Footer)
-			.on('mousedown',(function(){ this.OnClick(); return false; }).bind(this))
+			.on('mousedown',(function(){ this.OnClick(); }).bind(this))
 		);
 
 		// handle initial positioning.

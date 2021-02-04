@@ -14,7 +14,6 @@
 	--NUI-Element-Window-Border-Radius: 2px;
 }
 
-
 .NUI-Element-Window {
 	position: absolute;
 	top: 0px;
@@ -165,4 +164,17 @@
 
 .NUI-Element-Window.Padded > section {
 	padding: 16px;
+}
+
+/*/////////////////////////////////////////////////////////////////////////////
+//// things in windows ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////*/
+
+.NUI-Element-Window input {
+	background-color: var(--NUI-Element-Window-Colour1a);
+	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
+	border-radius: var(--NUI-Element-Window-Border-Radius);
+	box-shadow: var(--NUI-Element-Window-Box-Shadow);
+	color: var(--NUI-Element-Window-Text-Colour);
+	text-shadow: var(--NUI-Element-Window-Text-Shadow);
 }
