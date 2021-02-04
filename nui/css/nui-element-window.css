@@ -159,6 +159,8 @@
 	width: 100% !important;
 	height: 100% !important;
 	border: 0px !important;
+	max-height: 100% !important;
+	max-width: 100% !important;
 }
 
 .NUI-Element-Window.Padded > section {
