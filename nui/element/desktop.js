@@ -57,7 +57,7 @@ export default class extends Base {
 			.append(
 				this.AppTray = jQuery('<div />')
 				.addClass('AppTray Left Animate')
-				.addClass('d-nonee')
+				.addClass('d-none')
 				.append(
 					this.Minimized = (
 						jQuery('<div />')
