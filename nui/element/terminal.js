@@ -72,6 +72,7 @@ export default class extends Base {
 
 		this.Keyboard = (
 			jQuery('<input />')
+			.attr('autocomplete','new-password')
 			.addClass('Keyboard')
 		);
 
@@ -225,22 +226,10 @@ export default class extends Base {
 		let BaseCommand = Command.split(" ",1)[0];
 		let Colour;
 
-		Util.Log(`Command: "${Command}"`);
-		Util.Log(`BaseCommand: "${BaseCommand}"`);
-
-		if(BaseCommand === 'colour') {
-			Colour = Command.replace(/^colour /,'');
-			Util.Log(`Colour: ${Colour}`);
-
-			(document.documentElement.style)
-			.setProperty('--NUI-Element-Window-Colour1',Colour);
-
-			(document.documentElement.style)
-			.setProperty('--NUI-Element-Window-Colour1a',(Colour + '33'));
-
-			(document.documentElement.style)
-			.setProperty('--NUI-Element-Window-Colour1b',(Colour + '99'));
-		}
+		this.CallEventHandlers('Command',{
+			'Input': Command,
+			'Base': BaseCommand
+		});
 
 		return;
 	}
