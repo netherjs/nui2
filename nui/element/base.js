@@ -52,7 +52,7 @@ export default class {
 		return this;
 	}
 
-	CallEventHandlers(EventName) {
+	CallEventHandlers(EventName,Arg) {
 	/*//
 	@date 2021-01-08
 	//*/
@@ -77,7 +77,7 @@ export default class {
 			if(this.Config.Debug)
 			this.Log(`Event(${EventName}, ${Callable})`);
 
-			this.Events[EventName][Callable].call(this);
+			this.Events[EventName][Callable].call(this,Arg);
 		}
 
 		return;
