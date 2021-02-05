@@ -110,7 +110,8 @@
 *******************************************************************************/
 
 .Terminal {
-	background: rgba(200,0,0,0.0);
+	background: var(--NUI-Element-Window-Colour2);
+	color: var(--NUI-Element-Window-Colour1);
 	padding: 10px;
 }
 
@@ -322,7 +323,9 @@
 /////////////////////////////////////////////////////////////////////////////*/
 
 .NUI-Element-Window input,
-.NUI-Element-Window input:focus {
+.NUI-Element-Window input:focus,
+.NUI-Element-Window textarea,
+.NUI-Element-Window textarea:focus {
 	background-color: var(--NUI-Element-Window-Colour1a);
 	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
 	border-radius: var(--NUI-Element-Window-Border-Radius);

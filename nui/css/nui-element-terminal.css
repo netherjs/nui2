@@ -1,6 +1,7 @@
 
 .Terminal {
-	background: rgba(200,0,0,0.0);
+	background: var(--NUI-Element-Window-Colour2);
+	color: var(--NUI-Element-Window-Colour1);
 	padding: 10px;
 }
 
