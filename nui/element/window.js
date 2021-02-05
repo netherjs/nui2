@@ -111,7 +111,8 @@ more tailored version called Dialog may be more use.
 		this.Register('Ready','Config.Show',function(){
 			this.Unregister('Ready','Config.Show');
 			this.Show();
-		})
+			return;
+		});
 
 		this.CallEventHandlers('Ready');
 		return;
@@ -596,7 +597,6 @@ more tailored version called Dialog may be more use.
 	//*/
 
 		if(!this.Container.hasClass('Loaded')) {
-
 			if(typeof this.Config.Content === 'function')
 			this.Content.append(this.Config.Content.call(this));
 			else
