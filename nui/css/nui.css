@@ -321,7 +321,8 @@
 //// things in windows ////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////*/
 
-.NUI-Element-Window input {
+.NUI-Element-Window input,
+.NUI-Element-Window input:focus {
 	background-color: var(--NUI-Element-Window-Colour1a);
 	border: var(--NUI-Element-Window-Border-Width) var(--NUI-Element-Window-Border-Style) var(--NUI-Element-Window-Border-Colour);
 	border-radius: var(--NUI-Element-Window-Border-Radius);
